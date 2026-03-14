@@ -1063,6 +1063,20 @@ header.solid { background:var(--bg1); border-bottom-color:var(--line); }
 .nd-ai-box { background:var(--bg1); border:1px solid var(--line2); border-radius:14px; padding:15px; margin-bottom:24px; }
 .nd-ai-ttl { font-size:0.7rem; font-weight:800; color:var(--accent); margin-bottom:8px; display:flex; align-items:center; gap:6px; }
 .nd-trans { display:flex; flex-direction:column; gap:12px; }
+.sb-divider { height:1px; background:var(--line2); margin:10px 14px; opacity:0.5; }
+.sb-gt { padding:10px 14px; }
+.goog-te-gadget-simple {
+  background: var(--bg2) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 8px !important;
+  padding: 6px 10px !important;
+  font-family: inherit !important;
+}
+.goog-te-gadget-simple span { color: var(--t1) !important; }
+.goog-te-gadget-icon { display: none !important; }
+.goog-te-menu-value span { color: var(--t1) !important; font-size: 0.85rem !important; }
+iframe.goog-te-banner-frame { display: none !important; }
+body { top: 0 !important; }
 .nd-t-item { border-left:2px solid var(--line2); padding-left:12px; }
 .nd-t-lang { font-size:0.6rem; font-weight:800; color:var(--t3); text-transform:uppercase; margin-bottom:2px; }
 .nd-t-text { font-size:0.85rem; color:var(--t2); line-height:1.4; }
@@ -1352,6 +1366,8 @@ header.solid { background:var(--bg1); border-bottom-color:var(--line); }
     </div>
     <div class="sb-item tap" onclick="openSub('help');sbClose()"><i class="fa-regular fa-circle-question"></i> Help & Support</div>
     <div class="sb-item tap" onclick="openSub('settings');sbClose()"><i class="fa-solid fa-gear"></i> Settings</div>
+    <div class="sb-divider"></div>
+    <div id="google_translate_element" class="sb-gt"></div>
   </div>
   <div class="sb-foot">
     <div class="sb-ver">SherByte v5.0 · Build 2026.03</div>
@@ -2824,6 +2840,10 @@ document.addEventListener('DOMContentLoaded', () => {
   renderExpCats();
   syncLocationFeed(); // Sync real news on load
 });
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
 </script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>

@@ -1051,6 +1051,9 @@ header.solid { background:var(--bg1); border-bottom-color:var(--line); }
 .nd-ttl { font-family:var(--fd); font-size:1.5rem; font-weight:800; color:var(--t1); line-height:1.2; letter-spacing:-0.5px; margin-bottom:14px; transition: opacity 0.2s ease; }
 .nd-sum { font-size:0.95rem; color:var(--t2); line-height:1.6; margin-bottom:20px; transition: opacity 0.2s ease; }
 
+.h-gt { margin-right:5px; }
+
+
 .nd-meta { font-size:0.75rem; color:var(--t3); margin-bottom:20px; display:flex; gap:10px; }
 .nd-t-item { border-left:2px solid var(--line2); padding-left:12px; }
 .nd-t-lang { font-size:0.6rem; font-weight:800; color:var(--t3); text-transform:uppercase; margin-bottom:2px; }
@@ -1356,6 +1359,7 @@ header.solid { background:var(--bg1); border-bottom-color:var(--line); }
     <div class="h-page" id="h-page"></div>
   </div>
   <div class="h-right">
+    <div id="google_translate_element" class="h-gt"></div>
     <div class="hico tap" id="h-search" style="display:none" onclick="toggleSearch(true)"><i class="fa-solid fa-magnifying-glass"></i></div>
     <div class="hico tap" id="h-vol" style="display:none" onclick="toggleMute()"><i id="vol-icon" class="fa-solid fa-volume-xmark"></i></div>
     <div class="hico tap" id="h-sync-btn" onclick="refreshPulse()" title="Refresh News Pulse"><i class="fa-solid fa-arrows-rotate"></i></div>
@@ -2784,5 +2788,12 @@ document.addEventListener('DOMContentLoaded', () => {
   renderExpCats();
   syncLocationFeed(); // Sync real news on load
 });
+</script>
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL}, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>

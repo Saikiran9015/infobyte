@@ -1050,17 +1050,18 @@ header.solid { background:var(--bg1); border-bottom-color:var(--line); }
 .nd-cat { font-size:0.7rem; font-weight:800; padding:2px 10px; border-radius:100px; display:inline-block; margin-bottom:10px; text-transform:uppercase; }
 .nd-ttl { font-family:var(--fd); font-size:1.5rem; font-weight:800; color:var(--t1); line-height:1.2; letter-spacing:-0.5px; margin-bottom:14px; transition: opacity 0.2s ease; }
 .nd-sum { font-size:0.95rem; color:var(--t2); line-height:1.6; margin-bottom:20px; transition: opacity 0.2s ease; }
-.nd-trans-row { display:flex; flex-direction:column; gap:10px; margin-bottom:18px; padding:16px; border:1px solid var(--line2); border-radius:18px; background:rgba(255,255,255,0.01); }
+
+.nd-trans-row { display:flex; flex-direction:column; gap:8px; margin-bottom:18px; padding-bottom:12px; border-bottom:1px solid var(--line2); overflow:hidden; }
 .nd-trans-lbl { font-size:0.75rem; font-weight:800; color:var(--t1); margin-bottom:6px; display:flex; align-items:center; gap:8px; opacity:0.8; }
 .nd-trans-lbl::before { content:'\f57d'; font-family:'Font Awesome 6 Free'; font-weight:900; color:#1565C0; font-size:1rem; }
-.lang-selector { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px; width:100%; }
+.lang-selector { display:flex; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; gap:8px; width:100%; }
 .lang-selector::-webkit-scrollbar { display:none; }
 .lang-chip {
-  padding:8px 10px; border-radius:100px; font-size:0.78rem; font-weight:700;
+  padding:6px 14px; border-radius:100px; font-size:0.78rem; font-weight:700;
   background:rgba(255,255,255,0.03); color:var(--t2); border:1px solid rgba(255,255,255,0.05);
-  white-space:nowrap; cursor:pointer; transition: all 0.2s; width:100%; text-align:center;
+  white-space:nowrap; cursor:pointer; transition: all 0.2s; flex-shrink:0;
 }
-.lang-chip:hover { background:#1565C0; color:#fff; border-color:#1565C0; transform:scale(1.05); }
+.lang-chip:hover { background:#1565C0; color:#fff; border-color:#1565C0; }
 .lang-chip.on { 
   background:#1565C0 !important; color:#fff !important; border-color:#1565C0 !important;
   box-shadow: 0 4px 15px rgba(21,101,192,0.3);

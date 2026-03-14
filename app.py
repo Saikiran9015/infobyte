@@ -117,13 +117,18 @@ class MockCollection:
         self._save(data)
     def _load(self):
         try:
-            if os.path.exists(f"local_{self.name}.json"):
-                with open(f"local_{self.name}.json", "r") as f: return json.load(f)
-        except: pass
+            filename = f"local_{self.name}.json"
+            if os.path.exists(filename):
+                with open(filename, "r") as f: 
+                    return json.load(f)
+        except Exception as e:
+            print(f"MockDB Load Error: {e}")
         return []
     def _save(self, data):
         try:
-            with open(f"local_{self.name}.json", "w") as f: json.dump(data, f)
+            filename = f"local_{self.name}.json"
+            with open(filename, "w") as f: 
+                json.dump(data, f)
         except: pass
 
 if not DB_CONNECTED:
@@ -825,11 +830,21 @@ def trigger_search_sync():
     results.sort(key=lambda x: x.get('created_at', ''), reverse=True)
     return jsonify(results[:15])
 
-if __name__ == '__main__':
+# --- Initial Seeding & Startup ---
+# In serverless (Vercel), __name__ is not "__main__", so we run initialization here
+# but wrap in a simple check to avoid double-running if possible.
+_initialized = False
+def initialize_app():
+    global _initialized
+    if _initialized: return
     seed_db()
-    
-    # Start the continuous AI monitor
-    scanner_thread = threading.Thread(target=background_scanner, daemon=True)
-    scanner_thread.start()
-    
+    if not os.environ.get('VERCEL'):
+        print("--- STARTING BACKGROUND SCANNER ---")
+        scanner_thread = threading.Thread(target=background_scanner, daemon=True)
+        scanner_thread.start()
+    _initialized = True
+
+initialize_app()
+
+if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)

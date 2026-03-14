@@ -1,0 +1,2509 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SherByte</title>
+<link rel="icon" type="image/jpeg" href="thewhitetigerdotin_logo.jpg">
+<link rel="shortcut icon" href="thewhitetigerdotin_logo.jpg">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════
+   SHERBYTE v5  —  Exact Figma Reference Match
+   Color System from brand table
+   Black/dark base · Glass headers · VIBGYOR categories
+══════════════════════════════════════════════════ */
+:root {
+  --f:    'SF Pro Display', 'Inter', -apple-system, sans-serif;
+  --fd:   'Sora', sans-serif;
+
+  /* SherByte COLOR SYSTEM: Black 90% · Blue 5% · Amber 3% · Grey 2% */
+  --c-red:    #C62828;
+  --c-orange: #D4A017;   /* amber — used sparingly */
+  --c-yellow: #D4A017;
+  --c-green:  #2E7D32;
+  --c-blue:   #1565C0;   /* primary accent */
+  --c-blue2:  #1E88E5;   /* lighter blue for glows */
+  --c-indigo: #283593;
+  --c-violet: #4A148C;
+
+  /* MOTION */
+  --spring:   cubic-bezier(0.34,1.56,0.64,1);
+  --ease:     cubic-bezier(0.22,1,0.36,1);
+  --snap:     cubic-bezier(0.32,0.72,0,1);
+
+  /* dimensions */
+  --phone-w: 360px;
+  --phone-h: calc(360px * 14 / 9);
+
+  --hh: 50px;
+  --nh: 70px;
+  --r:  14px;
+}
+
+/* ── DARK (default, matches Figma) ── */
+[data-theme="dark"] {
+  --bg:      #000000;
+  --bg1:     #080808;
+  --bg2:     #0E0E0E;
+  --bg3:     #161616;
+  --bg4:     #1E1E1E;
+  --bgcard:  rgba(255,255,255,0.03);
+  --glass:   rgba(4,4,8,0.92);
+  --glass2:  rgba(6,8,16,0.96);
+  --line:    rgba(160,160,160,0.10);
+  --line2:   rgba(130,130,130,0.06);
+  --t1:      #F0F0F0;
+  --t2:      #888888;
+  --t3:      #444444;
+  --t4:      #2A2A2A;
+  --accent:  #1565C0;   /* blue as primary accent */
+  --as:      rgba(21,101,192,0.12);
+  --amber:   #D4A017;   /* amber — minimal CTA use only */
+  --ambers:  rgba(212,160,23,0.10);
+  --nav-glass: rgba(4,8,20,0.94);
+  --nav-border: rgba(21,101,192,0.20);
+}
+/* ── LIGHT ── */
+[data-theme="light"] {
+  --bg:      #F0F0F0;
+  --bg1:     #FFFFFF;
+  --bg2:     #F4F4F4;
+  --bg3:     #E8E8E8;
+  --bg4:     #DADADA;
+  --bgcard:  rgba(0,0,0,0.03);
+  --glass:   rgba(240,240,240,0.88);
+  --glass2:  rgba(255,255,255,0.95);
+  --line:    rgba(0,0,0,0.07);
+  --line2:   rgba(0,0,0,0.04);
+  --t1:      #080808;
+  --t2:      #4A4A4A;
+  --t3:      #9A9A9A;
+  --t4:      #CCCCCC;
+  --accent:  #1565C0;
+  --as:      rgba(21,101,192,0.10);
+  --amber:   #B8860B;
+  --ambers:  rgba(184,134,11,0.10);
+  --nav-glass: rgba(255,255,255,0.96);
+}
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0;
+  -webkit-tap-highlight-color:transparent; -webkit-font-smoothing:antialiased; }
+
+html, body {
+  margin: 0; padding: 0;
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: var(--f);
+}
+
+/* ── v18.1: Pure fullscreen mobile — zero frame ── */
+.phone {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background: var(--bg);
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: background 0.35s;
+}
+
+/* ── TAP FEEDBACK ── */
+.tap { cursor:pointer; transition:transform 0.13s var(--spring),opacity 0.13s; user-select:none; }
+.tap:active { transform:scale(0.90); opacity:0.75; }
+
+/* ══════════════ SPLASH ══════════════ */
+#splash {
+  position:absolute; inset:0; z-index:9999;
+  background: radial-gradient(ellipse at 50% 40%, #0D0D0D 0%, #000 100%);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
+  transition:opacity 0.7s var(--ease), visibility 0.7s;
+}
+#splash.gone { opacity:0; visibility:hidden; pointer-events:none; }
+
+.sp-logo {
+  width:76px; height:76px; border-radius:22px;
+  overflow:hidden; 
+  box-shadow:0 0 0 1px rgba(21,101,192,0.35), 0 20px 50px rgba(21,101,192,0.28),
+             0 0 60px rgba(21,101,192,0.1);
+  animation:spBounce 1.6s var(--spring) infinite;
+}
+.sp-logo img { width:100%; height:100%; object-fit:cover; }
+.sp-name {
+  font-family:var(--fd); font-size:1.9rem; font-weight:800; letter-spacing:-0.8px; color:#fff;
+}
+.sp-tag { font-size:0.65rem; color:#3A3A3A; letter-spacing:2px; text-transform:uppercase; }
+@keyframes spBounce { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-8px) scale(1.05)} }
+
+/* ══════════════ TOAST ══════════════ */
+.toast {
+  position:absolute; top:96px; left:50%;
+  transform:translateX(-50%) translateY(-8px);
+  background:var(--bg3); backdrop-filter:blur(24px);
+  color:var(--t1); padding:8px 16px; border-radius:100px;
+  font-size:0.78rem; font-weight:600; white-space:nowrap;
+  z-index:8000; opacity:0; pointer-events:none;
+  transition:opacity 0.2s, transform 0.2s var(--ease);
+  box-shadow:0 4px 24px rgba(0,0,0,0.5);
+  border:1px solid var(--line);
+}
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* ══════════════ HEADER ══════════════ */
+header {
+  position:absolute; top:0; left:0; width:100%; height:var(--hh);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 16px;
+  background:var(--glass);
+  backdrop-filter:blur(32px) saturate(180%);
+  -webkit-backdrop-filter:blur(32px) saturate(180%);
+  border-bottom:1px solid var(--line2);
+  z-index:500;
+  transition:background 0.3s;
+}
+header.solid { background:var(--bg1); border-bottom-color:var(--line); }
+
+/* adjust views that need standard header padding */
+#v-home,#v-tribe,#v-bookmarks,#v-reposts,#v-notifs {
+  padding-top: var(--hh) !important;
+  padding-bottom: calc(var(--nh) + 16px) !important;
+}
+
+.h-left { display:flex; align-items:center; gap:10px; }
+.h-right { display:flex; align-items:center; gap:8px; }
+
+/* Hamburger */
+.hbtn {
+  width:32px; height:32px; border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--t1); font-size:0.9rem;
+  background:var(--bgcard);
+  border:1px solid var(--line);
+  cursor:pointer; transition:all 0.14s var(--spring);
+  backdrop-filter:blur(8px);
+}
+.hbtn:active { transform:scale(0.86); background:var(--bg3); }
+
+/* Logo in header */
+.h-logo {
+  width:28px; height:28px; border-radius:7px; overflow:hidden; flex-shrink:0;
+}
+.h-logo img { width:100%; height:100%; object-fit:cover; }
+
+.h-brand {
+  font-family:var(--fd); font-size:1.05rem; font-weight:800;
+  letter-spacing:-0.3px; color:var(--t1);
+}
+.h-brand span { color:var(--accent); }
+
+.h-page {
+  font-size:1rem; font-weight:700; color:var(--t1);
+  letter-spacing:-0.3px;
+  display:none;
+}
+
+.hico {
+  width:32px; height:32px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--t2); font-size:0.9rem; cursor:pointer;
+  transition:all 0.13s var(--spring);
+}
+.hico:active { transform:scale(0.82); color:var(--t1); }
+
+/* Profile avatar in header top-right */
+.h-avatar {
+  width:32px; height:32px; border-radius:50%; overflow:hidden;
+  border:2px solid rgba(21,101,192,0.6); cursor:pointer;
+  transition:transform 0.14s var(--spring);
+  flex-shrink:0;
+}
+.h-avatar:active { transform:scale(0.88); }
+.h-avatar img { width:100%; height:100%; object-fit:cover; }
+
+/* Theme toggle pill */
+.theme-pill {
+  width:36px; height:20px; border-radius:10px;
+  background:var(--bg4); position:relative; cursor:pointer;
+  transition:background 0.25s; flex-shrink:0;
+  border:1px solid var(--line);
+}
+.theme-pill::after {
+  content:''; position:absolute; top:2px; left:2px;
+  width:14px; height:14px; border-radius:50%;
+  background:var(--accent);
+  transition:left 0.22s var(--snap);
+  box-shadow:0 1px 4px rgba(0,0,0,0.3);
+}
+[data-theme="light"] .theme-pill::after { left:18px; }
+
+/* ══════════════ VIEWS ══════════════ */
+.view {
+  position:absolute; inset:0;
+  background:var(--bg);
+  display:none; overflow:hidden;
+  transition:background 0.3s;
+}
+.view.active { display:block; }
+
+/* ══════════════════════════════════
+   HOME VIEW
+══════════════════════════════════ */
+#v-home {
+  overflow-y:scroll; scroll-behavior:smooth;
+  padding-top:var(--hh); padding-bottom:calc(var(--nh)+10px);
+}
+#v-home::-webkit-scrollbar { display:none; }
+
+/* category chips */
+.chips {
+  display:flex; gap:8px; overflow-x:auto; padding:10px 14px;
+  scrollbar-width:none; border-bottom:1px solid var(--line2);
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-x;
+  scroll-behavior:smooth;
+}
+.chips::-webkit-scrollbar { display:none; }
+.chip {
+  flex-shrink:0; padding:5px 13px; border-radius:100px;
+  font-size:0.75rem; font-weight:600;
+  background:transparent; color:var(--t3);
+  border:1px solid var(--line); cursor:pointer;
+  transition:all 0.16s var(--spring);
+}
+.chip:active { transform:scale(0.9); }
+.chip.on { color:#fff; border-color:transparent; }
+
+/* Home news card — matches reference exactly */
+.nc {
+  padding:14px 16px;
+  border-bottom:1px solid var(--line2);
+  cursor:pointer;
+  transition:background 0.12s;
+  position:relative;
+}
+.nc:active { background:var(--bg2); }
+
+.nc-meta { display:flex; align-items:center; gap:6px; margin-bottom:8px; }
+.nc-src-ico {
+  width:16px; height:16px; border-radius:4px; overflow:hidden;
+  background:var(--bg3); display:flex; align-items:center; justify-content:center;
+  font-size:0.55rem; font-weight:800; color:var(--t2); flex-shrink:0;
+}
+.nc-src { font-size:0.72rem; color:var(--t3); font-weight:500; }
+.nc-link { color:var(--t3); font-size:0.68rem; margin-left:1px; }
+.nc-tag { font-size:0.62rem; font-weight:700; padding:1px 6px; border-radius:4px; margin-left:auto; }
+
+.nc-body { display:flex; gap:10px; align-items:flex-start; }
+.nc-text { flex:1; }
+.nc-title {
+  font-size:1rem; font-weight:700; line-height:1.3;
+  letter-spacing:-0.3px; color:var(--t1); margin-bottom:6px;
+}
+.nc-desc { font-size:0.82rem; color:var(--t2); line-height:1.5; margin-bottom:6px; }
+.nc-desc-inner {
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+  overflow:hidden; transition:all 0.2s;
+}
+.nc-desc-inner.expanded { display:block; -webkit-line-clamp:unset; }
+.nc-read { font-size:0.78rem; color:var(--accent); font-weight:600; cursor:pointer; display:inline-block; margin-top:2px; }
+.nc-img {
+  width:88px; height:68px; border-radius:8px;
+  object-fit:cover; flex-shrink:0; background:var(--bg3);
+  margin-left:10px;
+}
+/* actions row under text */
+.nc-acts {
+  display:flex; align-items:center; gap:2px;
+  margin-top:10px; padding-top:8px;
+  border-top:1px solid var(--line2);
+}
+.nc-act {
+  display:flex; align-items:center; gap:5px; padding:5px 9px;
+  border-radius:100px; font-size:0.76rem; font-weight:600;
+  color:var(--t3); cursor:pointer;
+  transition:all 0.14s var(--spring);
+}
+.nc-act:active { transform:scale(0.88); background:var(--bgcard); }
+.nc-act.red  { color:var(--c-red); }
+.nc-act.acc  { color:var(--accent); }
+.nc-act i { font-size:0.88rem; }
+.nc-sp { flex:1; }
+
+/* ══════════════════════════════════
+   EXPLORE VIEW
+══════════════════════════════════ */
+#v-explore {
+  overflow-y:scroll; padding-top:0 !important; padding-bottom:calc(var(--nh)+10px);
+  scrollbar-width:none;
+}
+#v-explore::-webkit-scrollbar { display:none; }
+
+/* News Bulletin carousel header */
+.bulletin-card {
+  margin:12px; border-radius:16px; overflow:hidden; position:relative;
+  background:linear-gradient(135deg, #0A0A0A, #1A1A1A);
+  border:1px solid var(--line); min-height:90px;
+  display:flex; align-items:center; justify-content:center;
+  flex-direction:column; gap:8px; padding:20px;
+}
+.bulletin-title { font-family:var(--fd); font-size:1.2rem; font-weight:800; color:var(--t1); letter-spacing:-0.4px; }
+.bulletin-dots { display:flex; gap:5px; }
+.b-dot { width:6px; height:6px; border-radius:50%; background:var(--t4); transition:background 0.2s; }
+.b-dot.on { background:var(--accent); }
+
+/* Category row — neon icon style from Figma */
+.cat-row {
+  display:flex; gap:0; overflow-x:auto; padding:4px 12px 12px;
+  scrollbar-width:none;
+}
+.cat-row::-webkit-scrollbar { display:none; }
+.cat-item {
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  padding:8px 14px; flex-shrink:0; cursor:pointer;
+  transition:transform 0.14s var(--spring);
+}
+.cat-item:active { transform:scale(0.88); }
+.cat-icon {
+  width:42px; height:42px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.1rem;
+  border:2px solid;
+  /* neon glow effect */
+  filter:drop-shadow(0 0 4px currentColor);
+}
+.cat-label { font-size:0.67rem; font-weight:600; color:var(--t2); white-space:nowrap; }
+
+/* Feature story (large card) */
+.feat-story {
+  margin:0 12px 10px; border-radius:12px; overflow:hidden;
+  position:relative; height:200px; cursor:pointer;
+  transition:transform 0.15s var(--spring);
+}
+.feat-story:active { transform:scale(0.97); }
+.feat-story img { width:100%; height:100%; object-fit:cover; display:block; }
+.feat-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.15) 55%);
+  padding:12px;
+  display:flex; flex-direction:column; justify-content:flex-end;
+}
+.feat-src { font-size:0.65rem; color:rgba(255,255,255,0.55); margin-bottom:4px; }
+.feat-title { font-size:0.92rem; font-weight:700; color:#fff; line-height:1.3; letter-spacing:-0.2px; }
+
+/* Masonry-ish 2-col grid */
+.exp-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:0 12px 12px;
+}
+.eg-item {
+  background:var(--bg2); border-radius:10px; overflow:hidden;
+  cursor:pointer; position:relative;
+  transition:transform 0.14s var(--spring);
+  border:1px solid var(--line2);
+}
+.eg-item:active { transform:scale(0.95); }
+.eg-item img { width:100%; aspect-ratio:4/3; object-fit:cover; display:block; }
+.eg-info { padding:7px 8px 8px; }
+.eg-src-row { display:flex; align-items:center; gap:4px; margin-bottom:4px; }
+.eg-src-ico { font-size:0.55rem; color:var(--accent); }
+.eg-src-lbl { font-size:0.62rem; color:var(--t3); }
+.eg-link-ico { font-size:0.55rem; color:var(--t3); margin-left:1px; }
+.eg-title { font-size:0.78rem; font-weight:600; color:var(--t1); line-height:1.3; }
+/* AD placeholder */
+.ad-block {
+  background:var(--bg3); display:flex; align-items:center; justify-content:center;
+  font-size:1.2rem; font-weight:800; color:var(--t3); letter-spacing:3px;
+  border-radius:10px; aspect-ratio:4/3; border:1px solid var(--line);
+}
+
+/* ══════════════════════════════════
+   BYTES VIEW — bulletproof TikTok snap
+   --ph is set by JS = actual phone pixel height
+   Each .bs = phone height minus header minus nav
+══════════════════════════════════ */
+#v-bytes {
+  position:absolute;
+  inset:0;
+  overflow-y:scroll;
+  scroll-snap-type:y mandatory;
+  scrollbar-width:none;
+  background:#000;
+  padding-top:var(--hh);
+  padding-bottom:var(--nh);
+  box-sizing:border-box;
+}
+#v-bytes::-webkit-scrollbar { display:none; }
+
+.bs {
+  /* --bsh is computed by JS as: phoneEl.clientHeight - 52 - 62 */
+  height:var(--bsh, calc(95vh - 52px - 62px));
+  min-height:var(--bsh, calc(95vh - 52px - 62px));
+  max-height:var(--bsh, calc(95vh - 52px - 62px));
+  width:100%;
+  scroll-snap-align:start;
+  scroll-snap-stop:always;
+  display:flex;
+  flex-direction:row;
+  align-items:stretch;
+  padding:6px 4px 6px 10px;
+  overflow:hidden;
+  flex-shrink:0;
+  box-sizing:border-box;
+}
+
+/* the card */
+.bc {
+  flex:1; border-radius:14px; overflow:hidden;
+  display:flex; flex-direction:column;
+  background:#0D0D0D;
+  border:1px solid rgba(160,160,160,0.12);
+  box-shadow:0 4px 28px rgba(0,0,0,0.7);
+  min-width:0; height:100%;
+}
+/* image fills top 52% — bigger */
+.bc-img {
+  width:100%; height:52%; flex-shrink:0;
+  overflow:hidden; background:var(--bg3); position:relative;
+}
+.bc-img img { width:100%; height:100%; object-fit:cover; display:block; }
+/* category pill overlaid on image */
+.bc-cat {
+  position:absolute; bottom:10px; left:10px;
+  display:inline-flex; align-items:center; gap:4px;
+  background:rgba(0,0,0,0.72); backdrop-filter:blur(12px);
+  padding:5px 12px; border-radius:100px;
+  font-size:0.76rem; font-weight:700;
+  border:1px solid rgba(255,255,255,0.12);
+}
+/* text area — fills remaining 48% */
+.bc-text {
+  flex:1; overflow:hidden; padding:16px 14px 12px;
+  display:flex; flex-direction:column; gap:8px; min-height:0;
+}
+.bc-text::-webkit-scrollbar { display:none; }
+.bc-src-row { display:flex; align-items:center; gap:6px; }
+.bc-src-dot {
+  width:18px; height:18px; border-radius:5px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.6rem; font-weight:800;
+  background:var(--as); color:var(--accent);
+}
+.bc-src-name { font-size:0.8rem; color:var(--c-blue2); font-weight:600; }
+.bc-link { font-size:0.65rem; color:var(--t3); margin-left:2px; }
+.bc-title {
+  font-family:var(--fd); font-size:1.18rem; font-weight:800;
+  color:var(--t1); line-height:1.28; letter-spacing:-0.4px;
+}
+.bc-body { font-size:0.92rem; color:var(--t2); line-height:1.6; flex:1; overflow:hidden; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; }
+
+/* Actions column RIGHT outside card */
+.ba {
+  width:44px; display:flex; flex-direction:column;
+  align-items:center; justify-content:flex-end;
+  gap:20px; padding:0 0 14px 6px;
+  flex-shrink:0;
+}
+.ba-btn {
+  display:flex; flex-direction:column; align-items:center; gap:3px;
+  cursor:pointer;
+  transition:transform 0.14s var(--spring);
+}
+.ba-btn:active { transform:scale(0.80); }
+.ba-btn i {
+  font-size:1.45rem; color:rgba(255,255,255,0.72);
+  filter:drop-shadow(0 1px 4px rgba(0,0,0,0.6));
+  transition:color 0.15s;
+}
+.ba-btn i.liked { color:#E53935; }
+.ba-btn i.saved { color:var(--c-blue2); }
+.ba-lbl { font-size:0.58rem; font-weight:600; color:rgba(255,255,255,0.45); white-space:nowrap; }
+
+/* ══════════════════════════════════
+   TRIBE VIEW  (formerly Community)
+══════════════════════════════════ */
+#v-tribe {
+  overflow-y:scroll; padding-top:var(--hh); padding-bottom:calc(var(--nh)+10px);
+  scrollbar-width:none; position:relative;
+}
+#v-tribe::-webkit-scrollbar { display:none; }
+
+/* Tribe circles bar */
+.tribe-circles {
+  display:flex; gap:14px; overflow-x:auto; padding:14px 14px 12px;
+  scrollbar-width:none; border-bottom:1px solid var(--line2);
+}
+.tribe-circles::-webkit-scrollbar { display:none; }
+.tc-item { display:flex; flex-direction:column; align-items:center; gap:5px; flex-shrink:0; cursor:pointer; }
+.tc-item:active .tc-ring { transform:scale(0.86); }
+.tc-ring {
+  width:52px; height:52px; border-radius:50%;
+  padding:2.5px; border:2.5px solid;
+  transition:transform 0.14s var(--spring);
+  position:relative;
+}
+.tc-ring img { width:100%; height:100%; border-radius:50%; object-fit:cover; display:block; }
+.tc-live {
+  position:absolute; bottom:1px; right:1px;
+  width:12px; height:12px; border-radius:50%;
+  background:var(--c-red); border:2px solid var(--bg);
+}
+.tc-name { font-size:0.65rem; font-weight:600; color:var(--t2); }
+
+/* Tribe post card */
+.tp {
+  padding:14px 16px; border-bottom:1px solid var(--line2);
+  transition:background 0.1s;
+  position:relative;
+}
+.tp:active { background:var(--bg2); }
+.tp-head { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.tp-ava { width:38px; height:38px; border-radius:50%; overflow:hidden; background:var(--bg3); flex-shrink:0; }
+.tp-ava img { width:100%; height:100%; object-fit:cover; }
+.tp-meta { flex:1; min-width:0; }
+.tp-tribe {
+  font-size:0.63rem; font-weight:700; padding:1.5px 7px; border-radius:4px;
+  display:inline-block; margin-bottom:1.5px;
+}
+.tp-user { font-size:0.71rem; color:var(--t3); }
+.tp-more { color:var(--t3); font-size:0.95rem; padding:4px; cursor:pointer; }
+.tp-more:active { color:var(--t1); }
+.tp-title { font-size:0.96rem; font-weight:700; letter-spacing:-0.3px; color:var(--t1); margin-bottom:6px; line-height:1.3; }
+.tp-text { font-size:0.86rem; color:var(--t2); line-height:1.5; margin-bottom:10px; }
+.tp-img { width:100%; border-radius:10px; max-height:260px; object-fit:cover; display:block; margin-bottom:10px; }
+
+/* action bar */
+.tp-acts {
+  display:flex; gap:2px; padding-top:8px; border-top:1px solid var(--line2);
+}
+.tp-act {
+  display:flex; align-items:center; gap:5px;
+  padding:6px 10px; border-radius:100px;
+  font-size:0.75rem; font-weight:600; color:var(--t3);
+  cursor:pointer; transition:all 0.14s var(--spring);
+}
+.tp-act:active { transform:scale(0.88); background:var(--bgcard); }
+.tp-act.liked { color:var(--c-red); }
+.tp-act i { font-size:0.85rem; }
+
+/* ── COMMENTS THREAD ── */
+.tp-comments {
+  background:var(--bg2); border-radius:10px;
+  margin-bottom:8px; overflow:hidden;
+  display:none;
+}
+.tp-comments.open { display:block; }
+
+.cmt {
+  padding:10px 12px; border-bottom:1px solid var(--line2);
+  display:flex; gap:8px; align-items:flex-start;
+}
+.cmt:last-child { border-bottom:none; }
+.cmt-ava {
+  width:28px; height:28px; border-radius:50%;
+  overflow:hidden; background:var(--bg4); flex-shrink:0;
+}
+.cmt-ava img { width:100%; height:100%; object-fit:cover; }
+.cmt-body { flex:1; min-width:0; }
+.cmt-user { font-size:0.72rem; font-weight:700; color:var(--t1); margin-bottom:2px; }
+.cmt-text { font-size:0.8rem; color:var(--t2); line-height:1.4; }
+.cmt-time { font-size:0.62rem; color:var(--t3); margin-top:3px; }
+.cmt-like { font-size:0.62rem; color:var(--t3); margin-top:3px; cursor:pointer; display:inline-flex; align-items:center; gap:3px; }
+.cmt-like:active { color:var(--c-red); }
+
+/* Inline comment input inside thread */
+.cmt-input-row {
+  display:flex; gap:8px; align-items:center; padding:8px 12px;
+  background:var(--bg3); border-top:1px solid var(--line2);
+}
+.cmt-inp {
+  flex:1; background:var(--bg2); border:1px solid var(--line);
+  border-radius:100px; padding:7px 13px;
+  font-size:0.8rem; color:var(--t1); font-family:var(--f); outline:none;
+}
+.cmt-inp::placeholder { color:var(--t3); }
+.cmt-send {
+  width:30px; height:30px; border-radius:50%;
+  background:#1565C0; display:flex; align-items:center;
+  justify-content:center; color:#fff; font-size:0.8rem;
+  cursor:pointer; flex-shrink:0; transition:transform 0.14s var(--spring);
+}
+.cmt-send:active { transform:scale(0.84); }
+
+/* FAB */
+.tribe-fab {
+  position:absolute; bottom:calc(var(--nh)+12px); right:16px;
+  width:48px; height:48px; border-radius:50%;
+  background:var(--accent);
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; font-size:1.1rem;
+  box-shadow:0 6px 24px rgba(21,101,192,0.45);
+  z-index:400; cursor:pointer;
+  transition:transform 0.15s var(--spring), box-shadow 0.15s;
+}
+.tribe-fab:active { transform:scale(0.86); }
+
+/* ══════════════════════════════════
+   PROFILE VIEW
+══════════════════════════════════ */
+#v-profile {
+  overflow-y:scroll; overflow-x:hidden;
+  padding-top:var(--hh); padding-bottom:calc(var(--nh) + 16px);
+  scrollbar-width:none;
+}
+#v-profile::-webkit-scrollbar { display:none; }
+
+.prof-hero {
+  padding:18px 16px 14px;
+  border-bottom:1px solid var(--line2);
+  background:var(--bg1);
+}
+.prof-row { display:flex; align-items:center; gap:14px; margin-bottom:14px; }
+.prof-ava {
+  width:68px; height:68px; border-radius:50%; overflow:hidden;
+  flex-shrink:0;
+  box-shadow:0 0 0 2px rgba(21,101,192,0.5), 0 0 0 5px rgba(21,101,192,0.08);
+}
+.prof-ava img { width:100%; height:100%; object-fit:cover; }
+.prof-info { flex:1; min-width:0; }
+.prof-name { font-family:var(--fd); font-size:1rem; font-weight:800; color:var(--t1); letter-spacing:-0.4px; }
+.prof-handle { font-size:0.78rem; color:var(--t3); margin-bottom:3px; }
+.prof-bio { font-size:0.8rem; color:var(--t2); line-height:1.4; }
+.prof-stats { display:flex; border-top:1px solid var(--line2); border-bottom:1px solid var(--line2); margin-bottom:12px; }
+.ps { flex:1; text-align:center; padding:10px 0; border-right:1px solid var(--line2); }
+.ps:last-child { border-right:none; }
+.ps-n { font-size:1.1rem; font-weight:800; color:var(--t1); letter-spacing:-0.5px; }
+.ps-l { font-size:0.65rem; color:var(--t3); font-weight:500; }
+.prof-btns { display:flex; gap:8px; }
+.pb {
+  flex:1; padding:9px; border-radius:12px; border:none;
+  font-size:0.82rem; font-weight:700; font-family:var(--f); cursor:pointer;
+  transition:all 0.14s var(--spring);
+}
+.pb:active { transform:scale(0.94); opacity:0.85; }
+.pb-pri { background:var(--accent); color:#fff; }
+.pb-sec { background:var(--bg3); color:var(--t1); border:1px solid var(--line); }
+
+/* Settings list */
+.set-sec { padding:0 14px; margin-top:14px; }
+.set-lbl { font-size:0.65rem; font-weight:700; color:var(--t3); letter-spacing:0.5px; margin-bottom:6px; padding-left:2px; }
+.set-grp {
+  background:var(--bg1); border-radius:14px;
+  overflow:hidden; margin-bottom:14px;
+  border:1px solid var(--line2);
+}
+.sr {
+  display:flex; align-items:center; gap:11px; padding:12px 13px;
+  border-bottom:1px solid var(--line2); cursor:pointer;
+  transition:background 0.11s;
+}
+.sr:last-child { border-bottom:none; }
+.sr:active { background:var(--bg2); }
+.sr-ico {
+  width:28px; height:28px; border-radius:7px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.78rem; color:#fff; flex-shrink:0;
+}
+.sr-lbl { flex:1; font-size:0.87rem; font-weight:500; color:var(--t1); }
+.sr-val { font-size:0.74rem; color:var(--t3); margin-right:5px; }
+.sr-arr { color:var(--t3); font-size:0.65rem; }
+.sr-badge { background:var(--c-red); color:#fff; font-size:0.58rem; font-weight:800; padding:1px 6px; border-radius:100px; }
+
+/* iOS toggle */
+.tog {
+  width:44px; height:25px; border-radius:12.5px; background:var(--bg4);
+  position:relative; cursor:pointer; flex-shrink:0;
+  transition:background 0.22s var(--snap);
+}
+.tog::after {
+  content:''; position:absolute; top:2px; left:2px;
+  width:21px; height:21px; border-radius:50%; background:#fff;
+  transition:left 0.2s var(--snap); box-shadow:0 2px 5px rgba(0,0,0,0.3);
+}
+.tog.on { background:var(--c-green); }
+.tog.on::after { left:21px; }
+
+/* ══════════════════════════════════
+   BOOKMARKS VIEW
+══════════════════════════════════ */
+#v-bookmarks {
+  overflow-y:scroll; padding-top:var(--hh); padding-bottom:calc(var(--nh)+10px);
+  scrollbar-width:none;
+}
+#v-bookmarks::-webkit-scrollbar { display:none; }
+
+.bm-card {
+  padding:14px 16px; border-bottom:1px solid var(--line2);
+  cursor:pointer; transition:background 0.11s;
+}
+.bm-card:active { background:var(--bg2); }
+.bm-title { font-size:0.97rem; font-weight:700; color:var(--t1); margin-bottom:4px; letter-spacing:-0.3px; }
+.bm-src { font-size:0.7rem; color:var(--t3); margin-bottom:9px; }
+.bm-img { width:100%; aspect-ratio:16/9; border-radius:9px; object-fit:cover; display:block; margin-bottom:9px; background:var(--bg3); }
+.bm-acts { display:flex; gap:14px; }
+.bm-act { color:var(--t3); font-size:0.95rem; cursor:pointer; transition:transform 0.14s var(--spring); }
+.bm-act:active { transform:scale(0.80); }
+.bm-act.saved { color:var(--accent); }
+
+/* ══════════════════════════════════
+   REPOSTS VIEW
+══════════════════════════════════ */
+#v-reposts {
+  overflow-y:scroll; padding-top:var(--hh); padding-bottom:calc(var(--nh)+10px);
+  scrollbar-width:none;
+}
+#v-reposts::-webkit-scrollbar { display:none; }
+#v-notifs {
+  overflow-y:scroll; padding-top:var(--hh); padding-bottom:calc(var(--nh)+10px);
+  scrollbar-width:none;
+}
+#v-notifs::-webkit-scrollbar { display:none; }
+
+.notif {
+  display:flex; align-items:flex-start; gap:11px;
+  padding:12px 16px; border-bottom:1px solid var(--line2);
+  cursor:pointer; transition:background 0.11s;
+}
+.notif:active { background:var(--bg2); }
+.notif-img { width:76px; height:52px; border-radius:8px; object-fit:cover; flex-shrink:0; background:var(--bg3); }
+.notif-body { flex:1; min-width:0; }
+.notif-title { font-size:0.87rem; font-weight:500; color:var(--t1); line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.notif-time { font-size:0.68rem; color:var(--t3); margin-top:3px; }
+.notif-dot { width:7px; height:7px; border-radius:50%; background:var(--accent); flex-shrink:0; margin-top:4px; }
+
+/* ══════════════════════════════════
+   SIDEBAR — matches Figma
+══════════════════════════════════ */
+.overlay {
+  position:absolute; inset:0; z-index:800;
+  background:rgba(0,0,0,0.5); backdrop-filter:blur(4px);
+  opacity:0; pointer-events:none;
+  transition:opacity 0.3s;
+}
+.overlay.on { opacity:1; pointer-events:auto; }
+
+.sidebar {
+  position:absolute; top:0; left:0; bottom:0;
+  width:70%; max-width:260px; z-index:900;
+  background:var(--glass2);
+  backdrop-filter:blur(32px) saturate(160%);
+  -webkit-backdrop-filter:blur(32px) saturate(160%);
+  border-right:1px solid var(--line);
+  transform:translateX(-105%);
+  transition:transform 0.34s var(--snap);
+  display:flex; flex-direction:column;
+}
+.sidebar.on { transform:translateX(0); }
+
+.sb-close {
+  position:absolute; top:14px; left:14px;
+  width:32px; height:32px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1rem; color:var(--t2); cursor:pointer;
+  background:var(--bgcard); border:1px solid var(--line);
+  transition:all 0.14s var(--spring);
+  z-index:2;
+}
+.sb-close:active { transform:scale(0.84); }
+
+/* Logo centered at top */
+.sb-logo {
+  display:flex; justify-content:center; padding-top:54px; padding-bottom:10px;
+}
+.sb-logo img { width:52px; height:52px; border-radius:14px; object-fit:cover; }
+
+/* Profile info below logo */
+.sb-profile {
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  padding:0 18px 18px; border-bottom:1px solid var(--line2);
+  background:linear-gradient(180deg,rgba(21,101,192,0.06) 0%,transparent 100%);
+  text-align:center;
+}
+.sb-profile img {
+  width:50px; height:50px; border-radius:50%; border:2px solid var(--accent);
+  object-fit:cover;
+}
+.sb-profile-name { font-family:var(--fd); font-size:0.9rem; font-weight:800; color:var(--t1); line-height:1.2; }
+.sb-profile-handle { font-size:0.72rem; color:var(--t3); }
+
+.sb-body { flex:1; overflow-y:auto; display:flex; flex-direction:column; justify-content:flex-start; }
+.sb-body::-webkit-scrollbar { display:none; }
+.sb-item {
+  display:flex; align-items:center; gap:13px;
+  padding:13px 18px; cursor:pointer; font-size:0.9rem; font-weight:500; color:var(--t1);
+  transition:background 0.1s;
+  border-bottom:1px solid var(--line2);
+}
+.sb-item:active { background:var(--bg3); }
+.sb-item i { color:var(--accent); width:16px; text-align:center; font-size:0.95rem; }
+.sb-item-badge { background:var(--c-red); color:#fff; font-size:0.58rem; font-weight:800; padding:1px 5px; border-radius:100px; margin-left:auto; }
+
+.sb-foot { padding:14px 16px; border-top:1px solid var(--line2); }
+.sb-logout { display:flex; align-items:center; gap:11px; padding:8px 0; font-size:0.86rem; font-weight:600; color:var(--c-red); cursor:pointer; }
+.sb-logout:active { opacity:0.7; }
+.sb-ver { font-size:0.63rem; color:var(--t3); margin-top:8px; text-align:center; }
+
+/* ══════════════════════════════════
+   SUB PAGES (Security, Privacy etc.)
+══════════════════════════════════ */
+.sub {
+  position:absolute; inset:0; z-index:700;
+  background:var(--bg);
+  transform:translateX(104%);
+  transition:transform 0.36s var(--snap);
+  display:flex; flex-direction:column;
+}
+.sub.on { transform:translateX(0); }
+
+.sub-hdr {
+  height:calc(var(--hh) + 38px); display:flex; align-items:flex-end; gap:8px;
+  padding:0 14px 10px; flex-shrink:0;
+  background:var(--glass); backdrop-filter:blur(28px);
+  border-bottom:1px solid var(--line2); position:relative;
+}
+.sub-back {
+  display:flex; align-items:center; gap:4px;
+  color:var(--accent); font-size:0.88rem; font-weight:600;
+  cursor:pointer; padding:5px 3px;
+}
+.sub-back:active { opacity:0.6; }
+.sub-ttl {
+  position:absolute; left:50%; transform:translateX(-50%);
+  font-size:0.92rem; font-weight:700; color:var(--t1);
+}
+.sub-scroll { overflow-y:auto; flex:1; padding:14px; }
+.sub-scroll::-webkit-scrollbar { display:none; }
+
+/* Security Score Card */
+.sec-card {
+  background:linear-gradient(135deg, #1A1006, #2C1A04);
+  border-radius:14px; padding:18px; margin-bottom:14px;
+  border:1px solid rgba(21,101,192,0.2);
+  box-shadow:0 6px 24px rgba(21,101,192,0.15); position:relative; overflow:hidden;
+}
+.sec-card::after {
+  content:''; position:absolute; right:-20px; top:-20px;
+  width:100px; height:100px; border-radius:50%;
+  background:rgba(21,101,192,0.07);
+}
+.sec-lbl { font-size:0.7rem; font-weight:600; color:rgba(255,255,255,0.55); margin-bottom:4px; }
+.sec-num { font-family:var(--fd); font-size:2.8rem; font-weight:800; color:#fff; line-height:1; letter-spacing:-2px; }
+.sec-sub { font-size:0.74rem; color:rgba(255,255,255,0.5); margin-top:5px; }
+.sec-bar { height:5px; background:rgba(255,255,255,0.12); border-radius:3px; margin-top:10px; }
+.sec-fill { height:5px; border-radius:3px; background:linear-gradient(90deg, #43A047, #66BB6A); }
+
+.sg { margin-bottom:18px; }
+.sg-lbl { font-size:0.63rem; font-weight:700; color:var(--t3); letter-spacing:0.5px; margin-bottom:6px; padding-left:2px; }
+.sg-grp { background:var(--bg1); border-radius:11px; overflow:hidden; border:1px solid var(--line2); }
+.sg-row {
+  display:flex; align-items:center; gap:10px; padding:11px 12px;
+  border-bottom:1px solid var(--line2); cursor:pointer;
+  transition:background 0.1s;
+}
+.sg-row:last-child { border-bottom:none; }
+.sg-row:active { background:var(--bg2); }
+.sg-ico { width:26px; height:26px; border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:0.73rem; color:#fff; flex-shrink:0; }
+.sg-lbl2 { flex:1; font-size:0.85rem; font-weight:500; color:var(--t1); }
+.sg-val { font-size:0.72rem; color:var(--t3); margin-right:4px; }
+.sg-arr { color:var(--t3); font-size:0.62rem; }
+
+.dev-row {
+  display:flex; align-items:center; gap:10px; padding:10px 12px;
+  background:var(--bg1); border-radius:11px; border:1px solid var(--line2); margin-bottom:7px;
+}
+.dev-ico { width:34px; height:34px; background:var(--bgcard); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1rem; color:var(--t2); }
+.dev-info { flex:1; }
+.dev-n { font-size:0.85rem; font-weight:600; color:var(--t1); }
+.dev-m { font-size:0.68rem; color:var(--t3); }
+.dev-cur { font-size:0.68rem; font-weight:700; color:var(--c-green); }
+.danger-row {
+  display:flex; align-items:center; gap:10px; padding:11px 12px;
+  background:var(--bg1); border-radius:11px; border:1.5px solid rgba(229,57,53,0.2);
+  margin-bottom:7px; cursor:pointer; transition:background 0.1s;
+}
+.danger-row:active { background:rgba(229,57,53,0.08); }
+.danger-ico { width:26px; height:26px; background:rgba(229,57,53,0.12); border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:0.73rem; color:var(--c-red); flex-shrink:0; }
+.danger-lbl { font-size:0.85rem; font-weight:600; color:var(--c-red); }
+
+/* Privacy level */
+.priv-level { display:flex; gap:7px; padding:10px 12px; background:var(--bg1); border-radius:11px; border:1px solid var(--line2); margin-bottom:18px; }
+.pl { flex:1; text-align:center; padding:8px 4px; border-radius:9px; border:1.5px solid transparent; cursor:pointer; font-size:0.68rem; font-weight:600; color:var(--t3); transition:all 0.16s var(--spring); }
+.pl:active { transform:scale(0.9); }
+.pl i { font-size:1rem; display:block; margin-bottom:4px; }
+.pl.on { border-color:var(--accent); color:var(--accent); background:var(--as); }
+
+/* Activity timeline */
+.act-item { display:flex; gap:10px; align-items:flex-start; padding:9px 0; border-bottom:1px solid var(--line2); }
+.act-item:last-child { border-bottom:none; }
+.act-dot { width:9px; height:9px; border-radius:50%; margin-top:4px; flex-shrink:0; }
+.act-text { flex:1; font-size:0.8rem; color:var(--t2); line-height:1.4; }
+.act-text strong { color:var(--t1); font-weight:600; }
+.act-time { font-size:0.65rem; color:var(--t3); white-space:nowrap; }
+
+/* ══════════════════════════════════
+   POST MODAL (sheet)
+══════════════════════════════════ */
+#post-modal {
+  position:absolute; bottom:0; left:0; width:100%; height:88%;
+  background:var(--bg1); border-radius:22px 22px 0 0;
+  z-index:3000; transform:translateY(106%);
+  transition:transform 0.36s var(--snap);
+  display:flex; flex-direction:column;
+  border:1px solid var(--line); border-bottom:none;
+  box-shadow:0 -12px 50px rgba(0,0,0,0.5);
+}
+#post-modal.on { transform:translateY(0); }
+.pm-handle { width:34px; height:4px; background:var(--bg4); border-radius:2px; margin:10px auto 0; flex-shrink:0; }
+.pm-top {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 16px 10px; border-bottom:1px solid var(--line2); flex-shrink:0;
+}
+.pm-cancel { font-size:0.85rem; color:var(--t3); cursor:pointer; padding:4px; }
+.pm-cancel:active { color:var(--t1); }
+.pm-ttl { font-size:0.92rem; font-weight:700; color:var(--t1); }
+.pm-post {
+  background:#1565C0; color:#fff; border:none;
+  padding:6px 15px; border-radius:100px;
+  font-size:0.82rem; font-weight:700; font-family:var(--f);
+  cursor:pointer; transition:transform 0.14s var(--spring);
+}
+.pm-post:active { transform:scale(0.91); }
+.pm-body { padding:14px 16px; flex:1; overflow-y:auto; }
+.pm-body::-webkit-scrollbar { display:none; }
+.pm-sel {
+  width:100%; background:var(--bg2); color:var(--t1);
+  border:1px solid var(--line); padding:9px 11px; border-radius:9px;
+  font-family:var(--f); font-size:0.85rem; margin-bottom:12px;
+  appearance:none;
+}
+.pm-title {
+  width:100%; background:transparent; border:none;
+  color:var(--t1); font-family:var(--fd); font-size:1.05rem; font-weight:700;
+  outline:none; letter-spacing:-0.3px; margin-bottom:9px;
+}
+.pm-title::placeholder { color:var(--t3); }
+.pm-ta {
+  width:100%; background:transparent; border:none;
+  color:var(--t2); font-size:0.87rem; line-height:1.55;
+  font-family:var(--f); outline:none; resize:none; min-height:100px;
+}
+.pm-ta::placeholder { color:var(--t3); }
+.pm-tools {
+  display:flex; gap:14px; padding:10px 16px;
+  border-top:1px solid var(--line2); flex-shrink:0;
+}
+.pm-tool { color:var(--accent); font-size:1.05rem; cursor:pointer; transition:transform 0.14s var(--spring); }
+.pm-tool:active { transform:scale(0.82); }
+
+/* ══════════════════════════════════
+   BOTTOM NAV — refined, home-indicator aware
+   icons only, minimal labels, active = accent color + top line
+══════════════════════════════════ */
+.nav {
+  position:absolute; bottom:0; left:0; width:100%;
+  height:var(--nh);
+  background:var(--glass2);
+  backdrop-filter:blur(28px) saturate(200%);
+  -webkit-backdrop-filter:blur(28px) saturate(200%);
+  border-top:1px solid var(--line2);
+  display:flex; justify-content:space-around; align-items:center;
+  z-index:600;
+  padding-bottom:18px; /* home indicator clearance */
+}
+
+/* Home indicator bar at bottom */
+.nav::after {
+  content:'';
+  position:absolute; bottom:6px; left:50%; transform:translateX(-50%);
+  width:110px; height:4px;
+  background:var(--t1);
+  border-radius:100px;
+  opacity:0.18;
+}
+
+.nb {
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+  padding:4px 10px; cursor:pointer;
+  transition:all 0.14s var(--spring);
+  color:var(--t3); position:relative; flex:1;
+}
+.nb:active { transform:scale(0.84); }
+.nb.on { color:var(--accent); }
+.nb i { font-size:1.25rem; transition:transform 0.14s var(--spring); }
+.nb.on i { transform:scale(1.08); }
+.nb-lbl { font-size:0.58rem; font-weight:600; letter-spacing:0.2px; }
+/* notification dot */
+.nb-dot {
+  position:absolute; top:3px; right:10px;
+  width:6px; height:6px; border-radius:50%;
+  background:var(--c-red); border:1.5px solid var(--nav-glass);
+}
+
+/* ── TRIBE NAV: Blue when active ── */
+#nb-tribe.on {
+  color:#1E88E5 !important;
+}
+#nb-tribe.on i {
+  color:#1E88E5;
+  filter:drop-shadow(0 0 6px rgba(30,136,229,0.8)) drop-shadow(0 0 14px rgba(30,136,229,0.4));
+}
+#nb-tribe.on .nb-lbl { color:#1E88E5; }
+
+/* Section heading (used for Notifications, Bookmarks pages) */
+.sec-h { padding:16px 16px 10px; font-family:var(--fd); font-size:1.4rem; font-weight:800; color:var(--t1); letter-spacing:-0.5px; }
+
+/* ══ FEED BUTTON on Profile ══ */
+.pb-feed {
+  background: linear-gradient(135deg, #1565C0, #1565C0);
+  color:#fff;
+  border:none;
+  position:relative;
+  overflow:hidden;
+  flex:1.4;
+}
+.pb-feed::after {
+  content:'';
+  position:absolute; inset:-2px;
+  background:linear-gradient(135deg,rgba(21,101,192,0.6),transparent);
+  border-radius:inherit;
+  animation:feedGlow 2.4s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes feedGlow {
+  0%,100%{opacity:0.4;transform:scale(1)} 50%{opacity:1;transform:scale(1.04)}
+}
+
+/* ══ FEED INTROSPECTION PAGE ══ */
+#v-feed {
+  overflow-y:scroll; overflow-x:hidden;
+  padding-top:var(--hh); padding-bottom:calc(var(--nh) + 16px);
+  scrollbar-width:none; background:var(--bg);
+}
+#v-feed::-webkit-scrollbar { display:none; }
+
+/* Radar Chart SVG */
+.feed-radar-wrap {
+  margin:14px;
+  background:var(--bg1);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:14px 14px 10px;
+  position:relative;
+}
+.feed-radar-lbl { font-size:0.68rem; font-weight:700; color:var(--t3); letter-spacing:0.5px; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.feed-radar-lbl i { color:var(--accent); }
+.radar-svg { width:100%; display:block; }
+
+/* Category bars */
+.feed-cats { margin:0 14px 14px; }
+.fcat {
+  display:flex; align-items:center; gap:10px;
+  background:var(--bg1); border:1px solid var(--line2);
+  border-radius:12px; padding:10px 12px; margin-bottom:8px;
+}
+.fcat-ico { width:30px; height:30px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:0.85rem; flex-shrink:0; }
+.fcat-info { flex:1; min-width:0; }
+.fcat-name { font-size:0.82rem; font-weight:700; color:var(--t1); }
+.fcat-bar-wrap { height:4px; background:var(--bg3); border-radius:100px; margin-top:4px; overflow:hidden; }
+.fcat-bar { height:100%; border-radius:100px; transition:width 1s var(--ease); }
+.fcat-pct { font-size:0.72rem; font-weight:700; color:var(--t2); flex-shrink:0; }
+/* Toggle */
+.fcat-tog { width:36px; height:20px; background:var(--bg3); border-radius:10px; position:relative; cursor:pointer; flex-shrink:0; transition:background 0.22s; border:1px solid var(--line); }
+.fcat-tog::after { content:''; position:absolute; top:2px; left:2px; width:14px; height:14px; border-radius:50%; background:var(--t3); transition:left 0.2s var(--snap),background 0.2s; }
+.fcat-tog.on { background:rgba(21,101,192,0.25); border-color:var(--accent); }
+.fcat-tog.on::after { left:18px; background:var(--accent); }
+
+/* FEED Stats 2-col */
+.feed-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:0 14px 14px; }
+.fstat { background:var(--bg1); border:1px solid var(--line2); border-radius:14px; padding:12px; }
+.fstat i { font-size:1.1rem; margin-bottom:6px; display:block; }
+.fstat-sub { font-size:0.65rem; color:var(--t3); margin-bottom:2px; }
+.fstat-val { font-size:0.92rem; font-weight:800; color:var(--t1); }
+
+/* ══ EXPLORE LIVE TICKER ══ */
+.live-ticker {
+  background:rgba(5,5,5,0.9);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(21,101,192,0.18);
+  padding:6px 0;
+  overflow:hidden;
+  position:relative;
+}
+.ticker-inner {
+  display:flex;
+  gap:0;
+  animation:tickerScroll 28s linear infinite;
+  white-space:nowrap;
+}
+.ticker-inner:hover { animation-play-state:paused; }
+@keyframes tickerScroll {
+  0%{transform:translateX(0)} 100%{transform:translateX(-50%)}
+}
+.tick-item {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:0 20px; font-size:0.7rem; font-weight:600; font-family:monospace;
+  border-right:1px solid var(--line);
+}
+.tick-up { color:#22c55e; font-size:0.62rem; }
+.tick-dn { color:#ef4444; font-size:0.62rem; }
+
+/* ══ EXPLORE BENTO GRID ══ */
+.exp-bento { margin:12px; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:auto auto; gap:8px; margin-bottom:10px; }
+.bento-weather {
+  grid-column:1 / 3;
+  background:linear-gradient(135deg,#0c2340 0%,#1a3a5c 40%,#0a1628 100%);
+  border-radius:18px; padding:14px 16px;
+  border:1px solid rgba(30,136,229,0.3);
+  display:flex; justify-content:space-between; align-items:center;
+  position:relative; overflow:hidden;
+}
+.bento-weather::before {
+  content:'';
+  position:absolute; top:-20px; right:30px;
+  width:80px; height:80px;
+  background:radial-gradient(circle,rgba(21,101,192,0.3),transparent 70%);
+  border-radius:50%;
+  pointer-events:none;
+}
+.bw-left {}
+.bw-loc { font-size:0.68rem; color:rgba(255,255,255,0.55); display:flex; align-items:center; gap:3px; margin-bottom:2px; }
+.bw-temp { font-family:var(--fd); font-size:2rem; font-weight:800; color:#fff; line-height:1; }
+.bw-desc { font-size:0.72rem; color:rgba(255,255,255,0.55); margin-top:3px; }
+.bw-icon { font-size:2.6rem; filter:drop-shadow(0 0 12px rgba(21,101,192,0.5)); }
+
+.bento-stocks {
+  background:var(--bg1); border-radius:18px; padding:12px;
+  border:1px solid var(--line2);
+}
+.bs-lbl { font-size:0.6rem; font-weight:700; color:var(--t3); letter-spacing:0.4px; margin-bottom:6px; }
+.bs-name { font-size:0.75rem; font-weight:700; color:var(--t1); margin-bottom:1px; }
+.bs-val { font-family:var(--fd); font-size:1.1rem; font-weight:800; color:var(--t1); }
+.bs-chg { font-size:0.65rem; font-weight:700; }
+.bs-bar { height:3px; background:var(--bg3); border-radius:100px; margin-top:6px; overflow:hidden; }
+.bs-bar-fill { height:100%; border-radius:100px; }
+.bs-divider { height:1px; background:var(--line2); margin:8px 0; }
+
+.bento-sports {
+  background:var(--bg1); border-radius:18px; padding:12px;
+  border:1px solid var(--line2);
+}
+.bsp-live { display:flex; align-items:center; gap:4px; margin-bottom:5px; }
+.bsp-dot { width:6px; height:6px; border-radius:50%; background:var(--c-red); animation:livePulse 1.2s ease-in-out infinite; }
+@keyframes livePulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
+.bsp-lbl { font-size:0.6rem; font-weight:700; color:var(--c-red); letter-spacing:0.5px; }
+.bsp-match { font-size:0.78rem; font-weight:700; color:var(--t1); line-height:1.2; }
+.bsp-score { font-family:var(--fd); font-size:0.7rem; color:var(--accent); font-weight:700; margin-top:3px; }
+
+/* scope toggle on explore */
+.scope-toggle { display:flex; gap:0; margin:10px 12px 4px; background:var(--bg2); border-radius:10px; padding:3px; border:1px solid var(--line2); }
+.scope-btn { flex:1; padding:5px; border-radius:8px; font-size:0.72rem; font-weight:700; text-align:center; cursor:pointer; color:var(--t3); transition:all 0.15s; }
+.scope-btn.on { background:var(--bg4); color:var(--t1); }
+
+/* ══════ ANIMATIONS ══════ */
+@keyframes heartPop {
+  0%{transform:scale(1)} 35%{transform:scale(1.55)} 65%{transform:scale(0.85)} 100%{transform:scale(1)}
+}
+@keyframes fadeUp {
+  from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)}
+}
+.fadein { animation:fadeUp 0.22s var(--ease) forwards; }
+</style>
+</head>
+<body>
+<div class="phone" id="app">
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="sp-logo"><img src="thewhitetigerdotin_logo.jpg" onerror="this.parentNode.innerHTML='<div style=\'width:100%;height:100%;background:linear-gradient(135deg,#1565C0,#0D47A1);display:flex;align-items:center;justify-content:center;font-size:1.8rem\'>⚡</div>'" alt="SherByte"></div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+<!-- OVERLAY -->
+<div id="overlay" class="overlay" onclick="sbClose()"></div>
+
+<!-- SIDEBAR -->
+<div id="sidebar" class="sidebar">
+  <div class="sb-close tap" onclick="sbClose()"><i class="fa-solid fa-xmark"></i></div>
+  <div class="sb-logo"><img src="thewhitetigerdotin_logo.jpg" onerror="this.style.background='#1565C0'" alt="SherByte"></div>
+  <!-- Profile info below logo -->
+  <div class="sb-profile">
+    <img src="https://loremflickr.com/100/100/man?random=99" alt="">
+    <div class="sb-profile-name">Jashwanth Chowhan</div>
+    <div class="sb-profile-handle">@jashwanth1621 · Verified ✦</div>
+  </div>
+  <div class="sb-body">
+    <div class="sb-item tap" onclick="navTo('notifs');sbClose()"><i class="fa-regular fa-bell"></i> Notifications <span class="sb-item-badge">3</span></div>
+    <div class="sb-item tap" onclick="navTo('bookmarks');sbClose()"><i class="fa-regular fa-bookmark"></i> Bookmarks</div>
+    <div class="sb-item tap sb-feed-item" onclick="navTo('feed');sbClose()">
+      <i class="fa-solid fa-wave-square" style="color:var(--accent)"></i>
+      <span>FEED</span>
+      <span style="margin-left:auto;font-size:0.65rem;font-weight:700;color:var(--accent);background:rgba(21,101,192,0.12);padding:2px 8px;border-radius:100px">Pulse</span>
+    </div>
+    <div class="sb-item tap" onclick="openSub('help');sbClose()"><i class="fa-regular fa-circle-question"></i> Help & Support</div>
+    <div class="sb-item tap" onclick="openSub('settings');sbClose()"><i class="fa-solid fa-gear"></i> Settings</div>
+  </div>
+  <div class="sb-foot">
+    <div class="sb-ver">SherByte v5.0 · Build 2026.03</div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header id="hdr">
+  <div class="h-left">
+    <div class="hbtn tap" onclick="sbOpen()"><i class="fa-solid fa-bars-staggered"></i></div>
+    <div class="h-logo"><img src="thewhitetigerdotin_logo.jpg" onerror="this.style.background='#1565C0'" alt=""></div>
+    <div class="h-brand" id="h-brand">Sher<span>Byte</span></div>
+    <div class="h-page" id="h-page"></div>
+  </div>
+  <div class="h-right">
+    <div class="hico tap" id="h-search" style="display:none" onclick="toast('🔍 Search')"><i class="fa-solid fa-magnifying-glass"></i></div>
+    <div class="hico tap" id="h-vol" style="display:none" onclick="toggleMute()"><i id="vol-icon" class="fa-solid fa-volume-xmark"></i></div>
+    <div class="hico tap" onclick="navTo('notifs')"><i class="fa-regular fa-bell"></i></div>
+    <div class="theme-pill tap" id="thpill" onclick="toggleTheme()" title="Toggle theme"></div>
+    <div class="h-avatar tap" onclick="navTo('profile')">
+      <img src="https://loremflickr.com/100/100/man?random=99" alt="">
+    </div>
+  </div>
+</header>
+
+<!-- ════════ HOME ════════ -->
+<div id="v-home" class="view active">
+  <div class="chips" id="chip-row">
+    <div class="chip on tap" onclick="selectChip(this,'all')" style="background:var(--accent)">All</div>
+    <div class="chip tap" onclick="selectChip(this,'society')">🏛 Society</div>
+    <div class="chip tap" onclick="selectChip(this,'tech')">🔬 Tech</div>
+    <div class="chip tap" onclick="selectChip(this,'nature')">🌿 Nature</div>
+    <div class="chip tap" onclick="selectChip(this,'economy')">📈 Economy</div>
+    <div class="chip tap" onclick="selectChip(this,'arts')">🎭 Arts</div>
+    <div class="chip tap" onclick="selectChip(this,'selfwell')">🧘 Wellness</div>
+    <div class="chip tap" onclick="selectChip(this,'philo')">🔮 Philosophy</div>
+  </div>
+  <div id="home-feed"></div>
+  <div style="height:16px"></div>
+</div>
+
+<!-- ════════ EXPLORE ════════ -->
+<div id="v-explore" class="view">
+  <!-- Live Pulse Ticker -->
+  <div class="live-ticker" style="margin-top:var(--hh)">
+    <div class="ticker-inner" id="ticker-track">
+      <span class="tick-item"><span style="color:#546E7A">GOLD</span> ₹72,450 <span class="tick-up">▲ +0.4%</span></span>
+      <span class="tick-item"><span style="color:#aaa">SILVER</span> ₹88,200 <span class="tick-dn">▼ −0.2%</span></span>
+      <span class="tick-item"><span style="color:#1E88E5">NIFTY 50</span> 22,123 <span class="tick-up">▲ +1.1%</span></span>
+      <span class="tick-item"><span style="color:#8E24AA">NASDAQ</span> 16,274 <span class="tick-up">▲ +0.8%</span></span>
+      <span class="tick-item"><span style="color:#43A047">BSE</span> 73,088 <span class="tick-up">▲ +0.6%</span></span>
+      <span class="tick-item"><span style="color:#E53935">CRUDE</span> $82.4/bbl <span class="tick-dn">▼ −1.2%</span></span>
+      <!-- duplicate for seamless loop -->
+      <span class="tick-item"><span style="color:#546E7A">GOLD</span> ₹72,450 <span class="tick-up">▲ +0.4%</span></span>
+      <span class="tick-item"><span style="color:#aaa">SILVER</span> ₹88,200 <span class="tick-dn">▼ −0.2%</span></span>
+      <span class="tick-item"><span style="color:#1E88E5">NIFTY 50</span> 22,123 <span class="tick-up">▲ +1.1%</span></span>
+      <span class="tick-item"><span style="color:#8E24AA">NASDAQ</span> 16,274 <span class="tick-up">▲ +0.8%</span></span>
+      <span class="tick-item"><span style="color:#43A047">BSE</span> 73,088 <span class="tick-up">▲ +0.6%</span></span>
+      <span class="tick-item"><span style="color:#E53935">CRUDE</span> $82.4/bbl <span class="tick-dn">▼ −1.2%</span></span>
+    </div>
+  </div>
+
+  <!-- Scope toggle -->
+  <div class="scope-toggle">
+    <div class="scope-btn on tap" onclick="selScope(this,'local')">Local</div>
+    <div class="scope-btn tap" onclick="selScope(this,'national')">National</div>
+    <div class="scope-btn tap" onclick="selScope(this,'global')">Global</div>
+  </div>
+
+  <!-- Bento Grid -->
+  <div class="exp-bento">
+    <!-- Weather (full width) -->
+    <div class="bento-weather tap" onclick="toast('🌤 Kochi weather details')">
+      <div class="bw-left">
+        <div class="bw-loc"><i class="fa-solid fa-location-dot" style="font-size:0.6rem"></i> Kochi, Kerala</div>
+        <div class="bw-temp">28°C</div>
+        <div class="bw-desc">Mostly Clear · AQI 42 · Humid</div>
+        <div style="font-size:0.68rem;color:rgba(30,136,229,0.8);margin-top:5px;font-weight:600">📰 Local stories below ↓</div>
+      </div>
+      <div class="bw-icon">🌤</div>
+    </div>
+    <!-- Stocks -->
+    <div class="bento-stocks tap" onclick="toast('📈 Market details')">
+      <div class="bs-lbl">MARKETS</div>
+      <div class="bs-name">BSE SENSEX</div>
+      <div class="bs-val" style="color:#22c55e">73,088</div>
+      <div class="bs-chg" style="color:#22c55e">▲ +436 (+0.6%)</div>
+      <div class="bs-bar"><div class="bs-bar-fill" style="width:68%;background:#22c55e"></div></div>
+      <div class="bs-divider"></div>
+      <div class="bs-name">NIFTY 50</div>
+      <div class="bs-val">22,123</div>
+      <div class="bs-chg" style="color:#22c55e">▲ +1.1%</div>
+      <div class="bs-bar"><div class="bs-bar-fill" style="width:55%;background:#3949AB"></div></div>
+    </div>
+    <!-- Sports live -->
+    <div class="bento-sports tap" onclick="toast('🏏 Full scorecard')">
+      <div class="bsp-live"><div class="bsp-dot"></div><div class="bsp-lbl">LIVE</div></div>
+      <div class="bsp-match">IPL 2026<br>MI vs CSK</div>
+      <div class="bsp-score">MI: 142/4 (16.2 ov)</div>
+      <div style="font-size:0.62rem;color:var(--t3);margin-top:4px">Target: 187 · RRR: 12.2</div>
+    </div>
+  </div>
+
+  <!-- original category row -->
+  <div class="cat-row" id="exp-cats"></div>
+  <div id="exp-feat"></div>
+  <div class="exp-grid" id="exp-grid"></div>
+  <div style="height:16px"></div>
+</div>
+
+<!-- ════════ TRIBE ════════ -->
+<div id="v-tribe" class="view">
+  <div class="tribe-circles" id="tribe-circles"></div>
+  <div id="tribe-feed"></div>
+  <div class="tribe-fab tap" onclick="openPost()"><i class="fa-solid fa-pen-to-square"></i></div>
+  <div style="height:16px"></div>
+</div>
+
+<!-- ════════ BYTES ════════ -->
+<div id="v-bytes" class="view">
+  <div id="bytes-feed"></div>
+</div>
+
+<!-- ════════ PROFILE ════════ -->
+<div id="v-profile" class="view">
+  <div class="prof-hero">
+    <div class="prof-row">
+      <div class="prof-ava"><img src="https://loremflickr.com/200/200/man?random=99" alt=""></div>
+      <div class="prof-info">
+        <div class="prof-name">Jashwanth Chowhan</div>
+        <div class="prof-handle">@jashwanth1621 · Verified ✦</div>
+        <div class="prof-bio">Tech enthusiast & news junkie. Building things.</div>
+      </div>
+    </div>
+    <div class="prof-stats">
+      <div class="ps"><div class="ps-n">128</div><div class="ps-l">Followers</div></div>
+      <div class="ps"><div class="ps-n">45</div><div class="ps-l">Following</div></div>
+      <div class="ps"><div class="ps-n">18</div><div class="ps-l">Friends</div></div>
+      <div class="ps"><div class="ps-n" id="saved-ct">0</div><div class="ps-l">Saved</div></div>
+    </div>
+    <div class="prof-btns" style="margin-top:4px">
+      <button class="pb pb-sec tap" onclick="toast('✏️ Edit profile')">Edit Profile</button>
+      <button class="pb pb-sec tap" onclick="toast('🔗 Link copied')"><i class="fa-solid fa-share-nodes"></i></button>
+      <button class="pb pb-feed tap" onclick="navTo('feed')" id="feed-btn">
+        <i class="fa-solid fa-wave-square"></i> FEED
+      </button>
+    </div>
+  </div>
+  <div class="set-sec">
+    <div class="set-lbl">ACCOUNT</div>
+    <div class="set-grp">
+      <div class="sr tap" onclick="openSub('security')"><div class="sr-ico" style="background:#0D47A1"><i class="fa-solid fa-shield-halved"></i></div><span class="sr-lbl">Security Center</span><span class="sr-val" style="color:var(--c-green)">Strong</span><i class="fa-solid fa-chevron-right sr-arr"></i></div>
+      <div class="sr tap" onclick="openSub('privacy')"><div class="sr-ico" style="background:#43A047"><i class="fa-solid fa-lock"></i></div><span class="sr-lbl">Privacy</span><span class="sr-val">Friends only</span><i class="fa-solid fa-chevron-right sr-arr"></i></div>
+      <div class="sr tap"><div class="sr-ico" style="background:#1565C0"><i class="fa-solid fa-bell"></i></div><span class="sr-lbl">Notifications</span><span class="sr-badge">3</span><i class="fa-solid fa-chevron-right sr-arr" style="margin-left:6px"></i></div>
+    </div>
+    <div class="set-lbl">DATA & CONTENT</div>
+    <div class="set-grp">
+      <div class="sr tap" onclick="openSub('data')"><div class="sr-ico" style="background:#3949AB"><i class="fa-solid fa-database"></i></div><span class="sr-lbl">Data & Storage</span><span class="sr-val">48 MB</span><i class="fa-solid fa-chevron-right sr-arr"></i></div>
+      <div class="sr tap" onclick="openSub('activity')"><div class="sr-ico" style="background:#1E88E5"><i class="fa-solid fa-chart-simple"></i></div><span class="sr-lbl">Your Activity</span><span class="sr-val">45m today</span><i class="fa-solid fa-chevron-right sr-arr"></i></div>
+      <div class="sr tap" onclick="openSub('blocked')"><div class="sr-ico" style="background:#E53935"><i class="fa-solid fa-ban"></i></div><span class="sr-lbl">Blocked Accounts</span><span class="sr-val">2</span><i class="fa-solid fa-chevron-right sr-arr"></i></div>
+    </div>
+    <div class="set-lbl">APP</div>
+    <div class="set-grp">
+      <div class="sr tap" onclick="openSub('settings')"><div class="sr-ico" style="background:#555"><i class="fa-solid fa-gear"></i></div><span class="sr-lbl">Settings</span><i class="fa-solid fa-chevron-right sr-arr"></i></div>
+      <div class="sr tap" onclick="openSub('help')"><div class="sr-ico" style="background:#43A047"><i class="fa-regular fa-circle-question"></i></div><span class="sr-lbl">Help & Support</span><i class="fa-solid fa-chevron-right sr-arr"></i></div>
+      <div class="sr tap" onclick="toast('⭐ Rate us!')"><div class="sr-ico" style="background:#546E7A"><i class="fa-solid fa-star"></i></div><span class="sr-lbl">Rate SherByte</span><i class="fa-solid fa-chevron-right sr-arr"></i></div>
+    </div>
+  </div>
+  <div style="height:16px"></div>
+</div>
+
+<!-- ════════ FEED INTROSPECTION ════════ -->
+<div id="v-feed" class="view">
+  <!-- Header is handled by global header -->
+  <div style="padding:12px 14px 4px;display:flex;justify-content:space-between;align-items:center">
+    <div>
+      <div style="font-family:var(--fd);font-size:1.3rem;font-weight:800;color:var(--t1);letter-spacing:-0.5px">Your FEED Pulse</div>
+      <div style="font-size:0.7rem;color:var(--t3);margin-top:1px">Knowledge Balance · Last 7 days</div>
+    </div>
+    <div style="width:32px;height:32px;border-radius:10px;background:var(--bgcard);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;cursor:pointer" onclick="toast('⚙️ FEED settings')">
+      <i class="fa-solid fa-sliders" style="font-size:0.8rem;color:var(--t2)"></i>
+    </div>
+  </div>
+
+  <!-- Radar Chart -->
+  <div class="feed-radar-wrap">
+    <div class="feed-radar-lbl"><i class="fa-solid fa-chart-radar"></i> Knowledge Balance</div>
+    <svg class="radar-svg" viewBox="0 0 260 230" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="rg" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#1565C0" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#1565C0" stop-opacity="0.05"/>
+        </radialGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="2" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <!-- Grid circles -->
+      <circle cx="130" cy="115" r="80" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+      <circle cx="130" cy="115" r="60" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+      <circle cx="130" cy="115" r="40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+      <circle cx="130" cy="115" r="20" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+      <!-- Axis lines: 6 categories -->
+      <!-- Tech (top) -->
+      <line x1="130" y1="115" x2="130" y2="35" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+      <!-- Society (top-right) -->
+      <line x1="130" y1="115" x2="199" y2="75" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+      <!-- Economy (bottom-right) -->
+      <line x1="130" y1="115" x2="199" y2="155" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+      <!-- Arts (bottom) -->
+      <line x1="130" y1="115" x2="130" y2="195" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+      <!-- Nature (bottom-left) -->
+      <line x1="130" y1="115" x2="61" y2="155" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+      <!-- Philosophy (top-left) -->
+      <line x1="130" y1="115" x2="61" y2="75" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+
+      <!-- Data polygon: Tech 90%, Society 70%, Economy 60%, Arts 40%, Nature 75%, Philo 55% -->
+      <!-- Points computed proportionally on each axis (max radius=80) -->
+      <!-- Tech top: (130, 115-72)=(130,43) -->
+      <!-- Society top-right: center+(0.7*80*cos(-30°), 0.7*80*sin(-30°)) ≈ (195,87) wait let me use proper coords -->
+      <!-- Using angles: Tech=270°, Society=330°, Econ=30°, Arts=90°, Nature=150°, Philo=210° -->
+      <!-- Tech(270°): 0.9→(130+0*72,115-72)=(130,43) -->
+      <!-- Society(330°): 0.7→(130+0.5*56,115-0.866*56)=(158,67) -->
+      <!-- Economy(30°): 0.6→(130+0.5*48,115+0.866*48)=(154,157) -->
+      <!-- Arts(90°): 0.4→(130+0*32,115+32)=(130,147) -->
+      <!-- Nature(150°): 0.75→(130-0.5*60,115+0.866*60)=(100,167) -->
+      <!-- Philo(210°): 0.55→(130-0.5*44,115-0.866*44)=(108,77) hmm wait 210 is bottom-left -->
+      <!-- recalc Philo(210°): x=130+cos(210)*44=130-38=92, y=115+sin(210)*44=115-22=93 -->
+      <polygon
+        points="130,43 158,67 154,157 130,147 100,167 92,93"
+        fill="url(#rg)"
+        stroke="#1565C0"
+        stroke-width="1.5"
+        stroke-linejoin="round"
+        filter="url(#glow)"
+        opacity="0.9"
+      />
+      <!-- Dots -->
+      <circle cx="130" cy="43"  r="3" fill="#1565C0"/>
+      <circle cx="158" cy="67"  r="3" fill="#1E88E5"/>
+      <circle cx="154" cy="157" r="3" fill="#546E7A"/>
+      <circle cx="130" cy="147" r="3" fill="#E53935"/>
+      <circle cx="100" cy="167" r="3" fill="#43A047"/>
+      <circle cx="92"  cy="93"  r="3" fill="#8E24AA"/>
+
+      <!-- Labels -->
+      <text x="130" y="28"   text-anchor="middle" fill="#3949AB"  font-size="9" font-weight="700" font-family="Inter,sans-serif">Tech</text>
+      <text x="211" y="72"   text-anchor="start"  fill="#1E88E5"  font-size="9" font-weight="700" font-family="Inter,sans-serif">Society</text>
+      <text x="207" y="164"  text-anchor="start"  fill="#546E7A"  font-size="9" font-weight="700" font-family="Inter,sans-serif">Finance</text>
+      <text x="130" y="213"  text-anchor="middle" fill="#E53935"  font-size="9" font-weight="700" font-family="Inter,sans-serif">Arts</text>
+      <text x="46"  y="164"  text-anchor="end"    fill="#43A047"  font-size="9" font-weight="700" font-family="Inter,sans-serif">Nature</text>
+      <text x="52"  y="72"   text-anchor="end"    fill="#8E24AA"  font-size="9" font-weight="700" font-family="Inter,sans-serif">Philo</text>
+    </svg>
+  </div>
+
+  <!-- Stats cards -->
+  <div class="feed-stats">
+    <div class="fstat">
+      <i class="fa-solid fa-bolt" style="color:#546E7A"></i>
+      <div class="fstat-sub">Fastest Growth</div>
+      <div class="fstat-val">Fin-Tech</div>
+    </div>
+    <div class="fstat">
+      <i class="fa-solid fa-compass" style="color:#1E88E5"></i>
+      <div class="fstat-sub">Suggested</div>
+      <div class="fstat-val">Astronomy</div>
+    </div>
+    <div class="fstat">
+      <i class="fa-solid fa-clock" style="color:var(--accent)"></i>
+      <div class="fstat-sub">Time Today</div>
+      <div class="fstat-val">45 min</div>
+    </div>
+    <div class="fstat">
+      <i class="fa-solid fa-newspaper" style="color:#43A047"></i>
+      <div class="fstat-sub">Articles Read</div>
+      <div class="fstat-val">12 today</div>
+    </div>
+  </div>
+
+  <!-- Category toggles with bars -->
+  <div style="padding:0 14px 6px;font-family:var(--fd);font-size:0.9rem;font-weight:800;color:var(--t1)">Manage Categories</div>
+  <div class="feed-cats">
+    <div class="fcat">
+      <div class="fcat-ico" style="background:rgba(57,73,171,0.2)">🔬</div>
+      <div class="fcat-info">
+        <div class="fcat-name">Technology</div>
+        <div class="fcat-bar-wrap"><div class="fcat-bar" style="width:90%;background:#3949AB"></div></div>
+      </div>
+      <div class="fcat-pct" style="color:#3949AB">90%</div>
+      <div class="fcat-tog on tap" onclick="this.classList.toggle('on')"></div>
+    </div>
+    <div class="fcat">
+      <div class="fcat-ico" style="background:rgba(30,136,229,0.2)">🏛</div>
+      <div class="fcat-info">
+        <div class="fcat-name">Society</div>
+        <div class="fcat-bar-wrap"><div class="fcat-bar" style="width:70%;background:#1E88E5"></div></div>
+      </div>
+      <div class="fcat-pct" style="color:#1E88E5">70%</div>
+      <div class="fcat-tog on tap" onclick="this.classList.toggle('on')"></div>
+    </div>
+    <div class="fcat">
+      <div class="fcat-ico" style="background:rgba(21,101,192,0.2)">📈</div>
+      <div class="fcat-info">
+        <div class="fcat-name">Finance</div>
+        <div class="fcat-bar-wrap"><div class="fcat-bar" style="width:60%;background:#546E7A"></div></div>
+      </div>
+      <div class="fcat-pct" style="color:#546E7A">60%</div>
+      <div class="fcat-tog on tap" onclick="this.classList.toggle('on')"></div>
+    </div>
+    <div class="fcat">
+      <div class="fcat-ico" style="background:rgba(67,160,71,0.2)">🌿</div>
+      <div class="fcat-info">
+        <div class="fcat-name">Nature</div>
+        <div class="fcat-bar-wrap"><div class="fcat-bar" style="width:75%;background:#43A047"></div></div>
+      </div>
+      <div class="fcat-pct" style="color:#43A047">75%</div>
+      <div class="fcat-tog on tap" onclick="this.classList.toggle('on')"></div>
+    </div>
+    <div class="fcat">
+      <div class="fcat-ico" style="background:rgba(142,36,170,0.2)">🔮</div>
+      <div class="fcat-info">
+        <div class="fcat-name">Philosophy</div>
+        <div class="fcat-bar-wrap"><div class="fcat-bar" style="width:55%;background:#8E24AA"></div></div>
+      </div>
+      <div class="fcat-pct" style="color:#8E24AA">55%</div>
+      <div class="fcat-tog on tap" onclick="this.classList.toggle('on')"></div>
+    </div>
+    <div class="fcat">
+      <div class="fcat-ico" style="background:rgba(229,57,53,0.2)">🎭</div>
+      <div class="fcat-info">
+        <div class="fcat-name">Arts</div>
+        <div class="fcat-bar-wrap"><div class="fcat-bar" style="width:40%;background:#E53935"></div></div>
+      </div>
+      <div class="fcat-pct" style="color:#E53935">40%</div>
+      <div class="fcat-tog tap" onclick="this.classList.toggle('on')"></div>
+    </div>
+    <div class="fcat">
+      <div class="fcat-ico" style="background:rgba(21,101,192,0.2)">🧘</div>
+      <div class="fcat-info">
+        <div class="fcat-name">Wellness</div>
+        <div class="fcat-bar-wrap"><div class="fcat-bar" style="width:65%;background:#1565C0"></div></div>
+      </div>
+      <div class="fcat-pct" style="color:#1565C0">65%</div>
+      <div class="fcat-tog on tap" onclick="this.classList.toggle('on')"></div>
+    </div>
+  </div>
+  <div style="height:16px"></div>
+</div>
+
+<!-- ════════ BOOKMARKS ════════ -->
+<div id="v-bookmarks" class="view">
+  <div class="sec-h">Bookmarks</div>
+  <div id="bm-feed"></div>
+  <div style="height:16px"></div>
+</div>
+
+<!-- ════════ NOTIFICATIONS ════════ -->
+<div id="v-notifs" class="view">
+  <div class="sec-h">Notifications</div>
+  <div id="notifs-feed"></div>
+  <div style="height:16px"></div>
+</div>
+
+<!-- ════════ REPOSTS ════════ -->
+<div id="v-reposts" class="view">
+  <div class="sec-h">🔁 My Reposts</div>
+  <div id="repost-feed"><div style="text-align:center;color:var(--t3);padding:60px 20px;font-size:0.9rem">No reposts yet.<br>Repost bytes to see them here.</div></div>
+  <div style="height:16px"></div>
+</div>
+
+<!-- ════════════════════════════════
+     SUB PAGES
+════════════════════════════════ -->
+
+<!-- SECURITY -->
+<div id="sub-security" class="sub">
+  <div class="sub-hdr"><div class="sub-back tap" onclick="closeSub('security')"><i class="fa-solid fa-chevron-left"></i> Back</div><div class="sub-ttl">Security Center</div></div>
+  <div class="sub-scroll">
+    <div class="sec-card"><div class="sec-lbl">SECURITY SCORE</div><div class="sec-num">78</div><div class="sec-sub">Good · 2 improvements available</div><div class="sec-bar"><div class="sec-fill" style="width:78%"></div></div></div>
+    <div class="sg"><div class="sg-lbl">AUTHENTICATION</div><div class="sg-grp">
+      <div class="sg-row"><div class="sg-ico" style="background:#1E88E5"><i class="fa-solid fa-key"></i></div><span class="sg-lbl2">Two-Factor Auth</span><div class="tog on" onclick="togRow(this)"></div></div>
+      <div class="sg-row"><div class="sg-ico" style="background:#8E24AA"><i class="fa-solid fa-fingerprint"></i></div><span class="sg-lbl2">Biometric Login</span><div class="tog on" onclick="togRow(this)"></div></div>
+      <div class="sg-row tap" onclick="toast('🔑 Change password')"><div class="sg-ico" style="background:#E53935"><i class="fa-solid fa-lock"></i></div><span class="sg-lbl2">Change Password</span><span class="sg-val">30 days ago</span><i class="fa-solid fa-chevron-right sg-arr"></i></div>
+      <div class="sg-row"><div class="sg-ico" style="background:#1E88E5"><i class="fa-solid fa-mobile-screen"></i></div><span class="sg-lbl2">Login Alerts</span><div class="tog on" onclick="togRow(this)"></div></div>
+    </div></div>
+    <div class="sg"><div class="sg-lbl">ACTIVE SESSIONS</div>
+      <div class="dev-row"><div class="dev-ico"><i class="fa-solid fa-mobile-screen"></i></div><div class="dev-info"><div class="dev-n">iPhone 15 Pro</div><div class="dev-m">Mumbai, IN · Active now</div></div><div class="dev-cur">Current</div></div>
+      <div class="dev-row"><div class="dev-ico"><i class="fa-brands fa-chrome"></i></div><div class="dev-info"><div class="dev-n">Chrome · MacBook Pro</div><div class="dev-m">Bangalore, IN · 2 hrs ago</div></div><span class="tap" style="color:var(--c-red);font-size:0.76rem;font-weight:700" onclick="toast('✓ Session ended')">Remove</span></div>
+    </div>
+    <div class="sg"><div class="sg-lbl">ENCRYPTION</div><div class="sg-grp">
+      <div class="sg-row"><div class="sg-ico" style="background:#43A047"><i class="fa-solid fa-shield-check"></i></div><span class="sg-lbl2">End-to-End Encryption</span><span style="font-size:0.7rem;color:var(--c-green);font-weight:700">Active</span></div>
+      <div class="sg-row"><div class="sg-ico" style="background:#1565C0"><i class="fa-solid fa-eye-slash"></i></div><span class="sg-lbl2">Encrypted Backup</span><div class="tog" onclick="togRow(this)"></div></div>
+    </div></div>
+    <div class="sg"><div class="sg-lbl">DANGER ZONE</div>
+      <div class="danger-row tap" onclick="toast('⚠️ Log out all devices?')"><div class="danger-ico"><i class="fa-solid fa-right-from-bracket"></i></div><span class="danger-lbl">Log Out All Devices</span></div>
+      <div class="danger-row tap" onclick="toast('⚠️ Deactivation needs email confirmation')"><div class="danger-ico"><i class="fa-solid fa-user-slash"></i></div><span class="danger-lbl">Deactivate Account</span></div>
+      <div class="danger-row tap" onclick="toast('⚠️ Deletion is permanent')"><div class="danger-ico"><i class="fa-solid fa-trash"></i></div><span class="danger-lbl">Delete Account</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- PRIVACY -->
+<div id="sub-privacy" class="sub">
+  <div class="sub-hdr"><div class="sub-back tap" onclick="closeSub('privacy')"><i class="fa-solid fa-chevron-left"></i> Back</div><div class="sub-ttl">Privacy</div></div>
+  <div class="sub-scroll">
+    <div class="sg"><div class="sg-lbl">PROFILE VISIBILITY</div>
+      <div class="priv-level">
+        <div class="pl on tap" onclick="selPriv(this)"><i class="fa-solid fa-user-friends"></i>Friends</div>
+        <div class="pl tap" onclick="selPriv(this)"><i class="fa-solid fa-users"></i>Public</div>
+        <div class="pl tap" onclick="selPriv(this)"><i class="fa-solid fa-user-lock"></i>Private</div>
+      </div>
+    </div>
+    <div class="sg"><div class="sg-lbl">WHAT OTHERS SEE</div><div class="sg-grp">
+      <div class="sg-row"><div class="sg-ico" style="background:#1E88E5"><i class="fa-solid fa-eye"></i></div><span class="sg-lbl2">Online Status</span><div class="tog on" onclick="togRow(this)"></div></div>
+      <div class="sg-row"><div class="sg-ico" style="background:#8E24AA"><i class="fa-solid fa-check-double"></i></div><span class="sg-lbl2">Read Receipts</span><div class="tog on" onclick="togRow(this)"></div></div>
+      <div class="sg-row"><div class="sg-ico" style="background:#43A047"><i class="fa-solid fa-location-dot"></i></div><span class="sg-lbl2">Location in Posts</span><div class="tog" onclick="togRow(this)"></div></div>
+    </div></div>
+    <div class="sg"><div class="sg-lbl">INTERACTIONS</div><div class="sg-grp">
+      <div class="sg-row tap"><div class="sg-ico" style="background:#E53935"><i class="fa-solid fa-comment"></i></div><span class="sg-lbl2">Who Can Comment</span><span class="sg-val">Everyone</span><i class="fa-solid fa-chevron-right sg-arr"></i></div>
+      <div class="sg-row tap"><div class="sg-ico" style="background:#1E88E5"><i class="fa-solid fa-at"></i></div><span class="sg-lbl2">Who Can Mention Me</span><span class="sg-val">Friends</span><i class="fa-solid fa-chevron-right sg-arr"></i></div>
+    </div></div>
+    <div class="sg"><div class="sg-lbl">DATA SHARING</div><div class="sg-grp">
+      <div class="sg-row"><div class="sg-ico" style="background:#555"><i class="fa-solid fa-chart-bar"></i></div><span class="sg-lbl2">Analytics Sharing</span><div class="tog" onclick="togRow(this)"></div></div>
+      <div class="sg-row"><div class="sg-ico" style="background:#8E24AA"><i class="fa-solid fa-bullseye"></i></div><span class="sg-lbl2">Personalised Ads</span><div class="tog" onclick="togRow(this)"></div></div>
+      <div class="sg-row"><div class="sg-ico" style="background:#43A047"><i class="fa-solid fa-cookie-bite"></i></div><span class="sg-lbl2">Third-party Cookies</span><div class="tog" onclick="togRow(this)"></div></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- DATA -->
+<div id="sub-data" class="sub">
+  <div class="sub-hdr"><div class="sub-back tap" onclick="closeSub('data')"><i class="fa-solid fa-chevron-left"></i> Back</div><div class="sub-ttl">Data & Storage</div></div>
+  <div class="sub-scroll">
+    <div class="sg"><div class="sg-lbl">STORAGE</div><div class="sg-grp">
+      <div class="sg-row tap" onclick="toast('🗑️ Cache cleared (14 MB)')"><div class="sg-ico" style="background:#E53935"><i class="fa-solid fa-broom"></i></div><span class="sg-lbl2">Clear Cache</span><span class="sg-val">14 MB</span><i class="fa-solid fa-chevron-right sg-arr"></i></div>
+      <div class="sg-row tap" onclick="toast('📦 Preparing export...')"><div class="sg-ico" style="background:#1E88E5"><i class="fa-solid fa-box-archive"></i></div><span class="sg-lbl2">Download My Data</span><i class="fa-solid fa-chevron-right sg-arr"></i></div>
+      <div class="sg-row"><div class="sg-ico" style="background:#43A047"><i class="fa-solid fa-wifi"></i></div><span class="sg-lbl2">Auto-load on Wi-Fi Only</span><div class="tog on" onclick="togRow(this)"></div></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div id="sub-settings" class="sub">
+  <div class="sub-hdr"><div class="sub-back tap" onclick="closeSub('settings')"><i class="fa-solid fa-chevron-left"></i> Back</div><div class="sub-ttl">Settings</div></div>
+  <div class="sub-scroll">
+    <div class="sg"><div class="sg-lbl">APPEARANCE</div><div class="sg-grp">
+      <div class="sg-row"><div class="sg-ico" style="background:#1A1A1A"><i class="fa-solid fa-moon"></i></div><span class="sg-lbl2">Dark Mode</span><div class="tog on" id="dm-tog" onclick="togRow(this);toggleTheme()"></div></div>
+      <div class="sg-row tap"><div class="sg-ico" style="background:#8E24AA"><i class="fa-solid fa-text-height"></i></div><span class="sg-lbl2">Font Size</span><span class="sg-val">Medium</span><i class="fa-solid fa-chevron-right sg-arr"></i></div>
+      <div class="sg-row tap"><div class="sg-ico" style="background:#1E88E5"><i class="fa-solid fa-language"></i></div><span class="sg-lbl2">Language</span><span class="sg-val">English</span><i class="fa-solid fa-chevron-right sg-arr"></i></div>
+    </div></div>
+    <div class="sg"><div class="sg-lbl">NOTIFICATIONS</div><div class="sg-grp">
+      <div class="sg-row"><div class="sg-ico" style="background:#1565C0"><i class="fa-solid fa-bell"></i></div><span class="sg-lbl2">Push Notifications</span><div class="tog on" onclick="togRow(this)"></div></div>
+      <div class="sg-row"><div class="sg-ico" style="background:#43A047"><i class="fa-solid fa-envelope"></i></div><span class="sg-lbl2">Email Digest</span><div class="tog" onclick="togRow(this)"></div></div>
+      <div class="sg-row"><div class="sg-ico" style="background:#555"><i class="fa-solid fa-volume-xmark"></i></div><span class="sg-lbl2">Do Not Disturb</span><div class="tog" onclick="togRow(this)"></div></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- ACTIVITY -->
+<div id="sub-activity" class="sub">
+  <div class="sub-hdr"><div class="sub-back tap" onclick="closeSub('activity')"><i class="fa-solid fa-chevron-left"></i> Back</div><div class="sub-ttl">Your Activity</div></div>
+  <div class="sub-scroll">
+    <div class="sg"><div class="sg-lbl">TODAY</div>
+      <div style="background:var(--bg1);border-radius:11px;padding:14px;border:1px solid var(--line2);margin-bottom:18px">
+        <div style="display:flex;justify-content:space-around;padding-bottom:12px;border-bottom:1px solid var(--line2)">
+          <div style="text-align:center"><div style="font-family:var(--fd);font-size:1.5rem;font-weight:800;color:var(--accent)">45m</div><div style="font-size:0.65rem;color:var(--t3)">Screen Time</div></div>
+          <div style="text-align:center"><div style="font-family:var(--fd);font-size:1.5rem;font-weight:800;color:var(--c-green)">12</div><div style="font-size:0.65rem;color:var(--t3)">Articles Read</div></div>
+          <div style="text-align:center"><div style="font-family:var(--fd);font-size:1.5rem;font-weight:800;color:var(--c-yellow)">5</div><div style="font-size:0.65rem;color:var(--t3)">Saved</div></div>
+        </div>
+        <div style="padding-top:10px;font-size:0.7rem;color:var(--t3)">Usage ↓ 12% vs yesterday</div>
+      </div>
+    </div>
+    <div class="sg"><div class="sg-lbl">RECENT</div>
+      <div style="background:var(--bg1);border-radius:11px;padding:10px 12px;border:1px solid var(--line2)">
+        <div class="act-item"><div class="act-dot" style="background:var(--accent)"></div><div class="act-text"><strong>Saved</strong> "Arctic Sea Ice Hits New Seasonal Low"</div><div class="act-time">2m</div></div>
+        <div class="act-item"><div class="act-dot" style="background:var(--c-green)"></div><div class="act-text"><strong>Liked</strong> a Tribe post in @Nature</div><div class="act-time">18m</div></div>
+        <div class="act-item"><div class="act-dot" style="background:var(--c-yellow)"></div><div class="act-text"><strong>Shared</strong> "Germany Approves Renewable Energy"</div><div class="act-time">1h</div></div>
+        <div class="act-item"><div class="act-dot" style="background:var(--c-red)"></div><div class="act-text"><strong>New login</strong> from Chrome · Bangalore</div><div class="act-time">2h</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BLOCKED -->
+<div id="sub-blocked" class="sub">
+  <div class="sub-hdr"><div class="sub-back tap" onclick="closeSub('blocked')"><i class="fa-solid fa-chevron-left"></i> Back</div><div class="sub-ttl">Blocked Accounts</div></div>
+  <div class="sub-scroll">
+    <div style="font-size:0.8rem;color:var(--t3);margin-bottom:12px;line-height:1.5">Blocked accounts cannot see your profile or contact you.</div>
+    <div class="dev-row"><div class="dev-ico"><i class="fa-solid fa-user"></i></div><div class="dev-info"><div class="dev-n">@spam_bot_2024</div><div class="dev-m">Blocked · 3 days ago</div></div><span class="tap" style="color:var(--accent);font-size:0.76rem;font-weight:700" onclick="toast('✓ Unblocked')">Unblock</span></div>
+    <div class="dev-row" style="margin-top:7px"><div class="dev-ico"><i class="fa-solid fa-user"></i></div><div class="dev-info"><div class="dev-n">@trollmaster99</div><div class="dev-m">Blocked · 2 weeks ago</div></div><span class="tap" style="color:var(--accent);font-size:0.76rem;font-weight:700" onclick="toast('✓ Unblocked')">Unblock</span></div>
+  </div>
+</div>
+
+<!-- HELP -->
+<div id="sub-help" class="sub">
+  <div class="sub-hdr"><div class="sub-back tap" onclick="closeSub('help')"><i class="fa-solid fa-chevron-left"></i> Back</div><div class="sub-ttl">Help & Support</div></div>
+  <div class="sub-scroll">
+    <div class="sg-grp">
+      <div class="sg-row tap" onclick="toast('📖 Opening FAQ...')"><div class="sg-ico" style="background:#1E88E5"><i class="fa-solid fa-book"></i></div><span class="sg-lbl2">FAQs</span><i class="fa-solid fa-chevron-right sg-arr"></i></div>
+      <div class="sg-row tap" onclick="toast('📩 Opening support...')"><div class="sg-ico" style="background:#43A047"><i class="fa-solid fa-headset"></i></div><span class="sg-lbl2">Contact Support</span><i class="fa-solid fa-chevron-right sg-arr"></i></div>
+      <div class="sg-row tap" onclick="toast('🐛 Bug reported!')"><div class="sg-ico" style="background:#E53935"><i class="fa-solid fa-bug"></i></div><span class="sg-lbl2">Report a Bug</span><i class="fa-solid fa-chevron-right sg-arr"></i></div>
+      <div class="sg-row tap" onclick="toast('💡 Feature requested!')"><div class="sg-ico" style="background:#1565C0"><i class="fa-solid fa-lightbulb"></i></div><span class="sg-lbl2">Suggest a Feature</span><i class="fa-solid fa-chevron-right sg-arr"></i></div>
+      <div class="sg-row tap"><div class="sg-ico" style="background:#555"><i class="fa-solid fa-file-lines"></i></div><span class="sg-lbl2">Privacy Policy</span><i class="fa-solid fa-chevron-right sg-arr"></i></div>
+      <div class="sg-row tap"><div class="sg-ico" style="background:#555"><i class="fa-solid fa-scale-balanced"></i></div><span class="sg-lbl2">Terms of Service</span><i class="fa-solid fa-chevron-right sg-arr"></i></div>
+    </div>
+  </div>
+</div>
+
+<!-- POST MODAL -->
+<div id="post-modal">
+  <div class="pm-handle"></div>
+  <div class="pm-top">
+    <span class="pm-cancel tap" onclick="closePost()">Cancel</span>
+    <span class="pm-ttl">New Post</span>
+    <button class="pm-post tap" onclick="submitPost()">Post</button>
+  </div>
+  <div class="pm-body">
+    <select id="pm-cat" class="pm-sel">
+      <option value="arts">🎭 Arts & Culture</option>
+      <option value="selfwell">🧘 Wellness</option>
+      <option value="economy">📈 Business</option>
+      <option value="nature">🌿 Nature</option>
+      <option value="society">🏛 Society</option>
+      <option value="tech">🔬 Technology</option>
+      <option value="philo">🔮 Philosophy</option>
+    </select>
+    <input id="pm-title" class="pm-title" placeholder="Write an interesting title…">
+    <textarea id="pm-body" class="pm-ta" placeholder="What's on your mind? Share with your Tribe…"></textarea>
+  </div>
+  <div class="pm-tools">
+    <i class="fa-solid fa-image pm-tool tap" onclick="toast('📷 Image picker')"></i>
+    <i class="fa-solid fa-link pm-tool tap" onclick="toast('🔗 Add link')"></i>
+    <i class="fa-solid fa-poll-h pm-tool tap" onclick="toast('📊 Poll creator')"></i>
+    <i class="fa-solid fa-location-dot pm-tool tap" onclick="toast('📍 Location')"></i>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="nav">
+  <div class="nb on tap" id="nb-home" onclick="navTo('home')">
+    <i class="fa-solid fa-house"></i><span class="nb-lbl">Home</span>
+  </div>
+  <div class="nb tap" id="nb-explore" onclick="navTo('explore')">
+    <i class="fa-solid fa-compass"></i><span class="nb-lbl">Explore</span>
+  </div>
+  <div class="nb tap" id="nb-tribe" onclick="navTo('tribe')">
+    <i class="fa-solid fa-people-group tribe-icon"></i><span class="nb-lbl">Tribe</span>
+  </div>
+  <div class="nb tap" id="nb-bytes" onclick="navTo('bytes')">
+    <i class="fa-solid fa-bolt"></i><span class="nb-lbl">Bytes</span>
+  </div>
+  <div class="nb tap" id="nb-profile" onclick="navTo('profile')">
+    <i class="fa-regular fa-circle-user"></i><span class="nb-lbl">Profile</span>
+    <span class="nb-dot"></span>
+  </div>
+</nav>
+
+</div><!-- /phone -->
+
+<script>
+/* ══════════════════════════════════════
+   SHERBYTE v5 · JavaScript
+══════════════════════════════════════ */
+
+// ── BRAND COLORS (from color table) ──
+const CAT_COLORS = {
+  arts:    { hex:'#E53935', bg:'rgba(229,57,53,0.15)',  label:'Arts' },
+  selfwell:{ hex:'#1565C0', bg:'rgba(21,101,192,0.15)',  label:'Wellness' },
+  economy: { hex:'#546E7A', bg:'rgba(84,110,122,0.15)', label:'Economy' },
+  nature:  { hex:'#43A047', bg:'rgba(67,160,71,0.15)',  label:'Nature' },
+  society: { hex:'#1E88E5', bg:'rgba(30,136,229,0.15)', label:'Society' },
+  tech:    { hex:'#3949AB', bg:'rgba(57,73,171,0.15)',  label:'Tech' },
+  philo:   { hex:'#8E24AA', bg:'rgba(142,36,170,0.15)', label:'Philosophy' },
+};
+
+// ── DATA ──
+const img = (kw, n) => `https://loremflickr.com/800/600/${kw}?random=${n}`;
+const ava = (n) => `https://loremflickr.com/100/100/face?random=${n}`;
+
+const articles = [
+  // ── SOCIETY & GOVERNANCE (Blue #1E88E5) ──
+  { id:'s1',  cat:'society', src:'resources', title:'Supreme Court Weighs Landmark Human Rights Case', img:img('supreme,court',101), text:'The Supreme Court is reviewing a landmark case on international human rights and digital privacy laws. Legal scholars suggest the verdict could redefine how governments handle citizen surveillance and intellectual property.', breaking:true },
+  { id:'s2',  cat:'society', src:'resources', title:'Urban Planners Unveil Smart City Waste Strategy', img:img('smart,city',102), text:'Urban planners in major hubs are implementing advanced waste management systems using smart cities technology and new zoning laws to reduce environmental impact while improving public transport efficiency.', breaking:false },
+  { id:'s3',  cat:'society', src:'resources', title:'Academic Debate Intensifies Over STEM versus Humanities', img:img('university,debate',103), text:'At Oxford University, professors debate the balance between STEM and humanities within modern pedagogy. As the National Education Policy 2020 gains momentum, educators are reevaluating Montessori methods.', breaking:false },
+  { id:'s4',  cat:'society', src:'resources', title:'Diplomatic Tensions Rise Over New Asylum Laws', img:img('diplomacy,summit',104), text:'International diplomats are convening at The White House to discuss escalating tensions surrounding asylum laws and border security, with NATO members reassessing their military commitments.', breaking:true },
+  { id:'s5',  cat:'society', src:'resources', title:'Election Commission Reviews Latest Caste Census Data', img:img('election,india',105), text:'The Election Commission is analyzing data from the recent Caste Census to ensure fair representation in the Lok Sabha. PM Modi emphasized these findings are crucial for equitable resource distribution.', breaking:false },
+  { id:'s6',  cat:'society', src:'resources', title:'Intellectual Property Laws Adapt to Cyber Forensics', img:img('law,cyber',106), text:'As cyber law grows increasingly complex, judges are relying on advanced forensics to settle intellectual property disputes. Legal experts argue statutes must evolve to protect innovators.', breaking:false },
+  { id:'s7',  cat:'society', src:'resources', title:'Activists Demand Action on Environmental Justice Reforms', img:img('protest,parliament',107), text:'A diverse coalition of activists gathered outside the Parliament of India to demand urgent environmental justice reforms, with influential leaders advocating for systemic anti-corruption measures.', breaking:false },
+  { id:'s8',  cat:'society', src:'resources', title:'Global Affairs Summit Focuses on G20 Cooperation', img:img('g20,summit',108), text:'World leaders are meeting at a high-profile summit to discuss G20 cooperation and the future of global soft power, working to balance political ideologies while maintaining international stability.', breaking:false },
+  { id:'s9',  cat:'society', src:'resources', title:'Feminism and the Future of National Political Discourse', img:img('women,parliament',109), text:'The impact of modern feminism on national politics is the subject of a new documentary. From the Lok Sabha to local councils, women are demanding a seat at the table.', breaking:false },
+  { id:'s10', cat:'society', src:'resources', title:'Prime Minister Outlines New Federalism and Governance Vision', img:img('india,governance',110), text:'In a major address, the Prime Minister outlined a new vision for federalism and national governance, focusing on empowering local bodies and streamlining administrative processes.', breaking:false },
+  { id:'s11', cat:'society', src:'resources', title:'Arctic Tensions Flare Post US-Russia Summit', img:img('politics,flags',1), text:'The recent US-Russia summit has intensified Arctic policy disputes, with Presidents clashing over resource rights. Serbia\'s student protests add to regional unrest, signaling a broader geopolitical shift.', breaking:false },
+  { id:'s12', cat:'society', src:'resources', title:'Did the SIR process decide Bihar\'s election outcome? Data says "No"', img:img('election,bihar',3), text:'Analysis of electoral data reveals the SIR process had minimal impact on Bihar\'s election results despite widespread speculation.', breaking:false },
+  { id:'s13', cat:'society', src:'resources', title:'Kerala MLA Rahul Mamkoottathil\'s anticipatory bail in rape case rejected', img:img('court,justice',4), text:'The Kerala High Court rejected the anticipatory bail application of MLA Rahul Mamkoottathil in connection with a sexual assault case.', breaking:true },
+
+  // ── BUSINESS & ECONOMY (Yellow #546E7A) ──
+  { id:'e1',  cat:'economy', src:'resources', title:'Elon Musk Discusses Future of SaaS and Seed Funding', img:img('tech,startup',201), text:'Elon Musk spoke at a tech conference about the evolving landscape of SaaS and seed funding for unicorns, emphasizing that the corporate world must adapt to rapid changes in AI.', breaking:false },
+  { id:'e2',  cat:'economy', src:'resources', title:'Wall Street Reacts to Rising Inflation and Interest Rates', img:img('wallstreet,finance',202), text:'Investors on Wall Street are closely monitoring rising inflation and interest rates. Macroeconomics experts warn a potential recession could affect GDP growth and trade deficits.', breaking:true },
+  { id:'e3',  cat:'economy', src:'resources', title:'PropTech Revolutionizes Real Estate and Rental Yields', img:img('real,estate',203), text:'The rise of PropTech is transforming the real estate industry, making it easier for investors to manage rental yields. New interior design markets are attracting buyers interested in property flipping.', breaking:false },
+  { id:'e4',  cat:'economy', src:'resources', title:'FinTech Startups Secure Record Seed Funding Rounds', img:img('fintech,startup',204), text:'FinTech startups are securing record-breaking seed funding rounds as venture capitalists look for the next industry unicorn, disrupting the corporate world with innovative payment gateways.', breaking:false },
+  { id:'e5',  cat:'economy', src:'resources', title:'Supply Chain Disruptions Impact Global GDP Growth', img:img('supply,chain',205), text:'Persistent supply chain disruptions are impacting global GDP growth and corporate profitability. HR teams are struggling to find skilled workers to address logistics challenges.', breaking:false },
+  { id:'e6',  cat:'economy', src:'resources', title:'Warren Buffett Shares Wisdom on Mutual Funds and Value', img:img('warren,buffett',206), text:'Warren Buffett recently shared his insights on the long-term benefits of mutual funds and value investing in a volatile market, emphasizing thinking fast and slow to avoid emotional decisions.', breaking:false },
+  { id:'e7',  cat:'economy', src:'resources', title:'Silicon Valley Founders Focus on Sustainable SaaS Growth', img:img('silicon,valley',207), text:'Founders in Silicon Valley are increasingly focusing on sustainable SaaS growth models rather than rapid expansion at any cost, driven by a more cautious venture capital environment.', breaking:false },
+  { id:'e8',  cat:'economy', src:'resources', title:'Pitch Deck Mastery Key to Securing Seed Funding', img:img('pitch,presentation',208), text:'Mastering the art of the pitch deck has become essential for founders looking to secure seed funding. Investors want clear evidence of market demand and a solid business tech foundation.', breaking:false },
+  { id:'e9',  cat:'economy', src:'resources', title:'Global Trade Deficits Spark Intense Macroeconomics Debate', img:img('trade,economy',209), text:'Widening global trade deficits are sparking an intense macroeconomics debate among policymakers and business leaders. GDP growth forecasts are being adjusted as the corporate world navigates complex conditions.', breaking:false },
+  { id:'e10', cat:'economy', src:'reuters',   title:'EU Proposes Digital Euro Rollout Framework', img:img('euro,digital',8), text:'The European Union proposed a legal framework for a digital euro rollout across member states, signaling a major shift in how Europe approaches monetary policy.', breaking:false },
+
+  // ── SCIENCE & TECHNOLOGY (Indigo #3949AB) ──
+  { id:'t1',  cat:'tech', src:'resources', title:'Sam Altman Discusses Ethics of Generative AI Models', img:img('ai,ethics',301), text:'Sam Altman led a discussion on the ethics surrounding generative AI and large language models, emphasizing the need for transparency in neural networks to prevent bias in computer vision systems.', breaking:false },
+  { id:'t2',  cat:'tech', src:'resources', title:'NASA Researchers Discover New Earth-Like Exoplanets', img:img('nasa,space',302), text:'NASA researchers have identified several new Earth-like exoplanets using advanced astrophysics techniques, sparking fresh interest in the search for extraterrestrial life and black holes.', breaking:false },
+  { id:'t3',  cat:'tech', src:'resources', title:'Quantum Computing Breakthrough Accelerates Cryptography Research', img:img('quantum,computer',303), text:'A major quantum computing breakthrough is accelerating next-generation cryptography research. Scientists demonstrated a stable quantum state that could revolutionize data security.', breaking:true },
+  { id:'t4',  cat:'tech', src:'resources', title:'CRISPR Technology Offers New Hope for Genetic Engineering', img:img('crispr,genetics',304), text:'Recent CRISPR advancements are providing new hope for genetic engineering and biotechnology, with scientists exploring how this technology can treat previously incurable diseases.', breaking:false },
+  { id:'t5',  cat:'tech', src:'resources', title:'SpaceX Successfully Tests New Aerospace Rocket Hardware', img:img('spacex,rocket',305), text:'SpaceX completed a test flight of its latest aerospace rocket hardware, utilizing advanced robotics and computer vision for a precise landing. Engineers are analyzing data for future Mars missions.', breaking:false },
+  { id:'t6',  cat:'tech', src:'resources', title:'CERN Scientists Explore Dark Matter and String Theory', img:img('cern,particle',306), text:'Scientists at CERN are conducting groundbreaking experiments exploring the mysteries of dark matter and string theory using the Large Hadron Collider, pushing the boundaries of astrophysics.', breaking:false },
+  { id:'t7',  cat:'tech', src:'resources', title:'Nuclear Fusion Research Reaches Major Scientific Milestone', img:img('fusion,energy',307), text:'Ongoing nuclear fusion research has reached a major milestone, bringing us one step closer to clean, limitless energy. Scientists use advanced mathematics to model complex fusion reactor reactions.', breaking:true },
+  { id:'t8',  cat:'tech', src:'resources', title:'Cybersecurity Experts Warn of Emerging Cloud Threats', img:img('cybersecurity,cloud',308), text:'Cybersecurity experts are warning of emerging threats targeting cloud computing infrastructure and neural networks. Software engineering teams are urged to implement stronger encryption and DevOps security.', breaking:false },
+  { id:'t9',  cat:'tech', src:'resources', title:'Computer Vision Improves Autonomous Drone Navigation', img:img('drone,autonomous',309), text:'New developments in computer vision are significantly improving autonomous drone navigation systems, allowing real-time obstacle detection and making them safer for urban environments.', breaking:false },
+  { id:'t10', cat:'tech', src:'resources', title:'Gurpatwant Singh Pannun: Narendra Modi breaks silence on US murder plot allegation', img:img('security,india',6), text:'In a rare statement, PM Modi addressed allegations regarding a purported plot involving Sikh separatist leader Gurpatwant Singh Pannun in the United States.', breaking:true },
+
+  // ── ARTS, CULTURE & RECREATION (Red #E53935) ──
+  { id:'r1',  cat:'arts', src:'resources', title:'Taylor Swift Redefines Music Production and Fan Engagement', img:img('concert,music',401), text:'Taylor Swift is redefining music production and fan engagement through record-breaking tours and album releases, with her influence extending into streetwear fashion and jewelry trends.', breaking:false },
+  { id:'r2',  cat:'arts', src:'resources', title:'Christopher Nolan Explores Color Theory in New Film', img:img('cinema,film',402), text:'Director Christopher Nolan is focusing on advanced color theory and cinematography for his upcoming film. Graphic design enthusiasts are already dissecting the movie\'s promotional posters.', breaking:false },
+  { id:'r3',  cat:'arts', src:'resources', title:'BookTok Trends Drive Surge in Classic Novel Sales', img:img('books,reading',403), text:'Viral BookTok trends are driving a massive surge in sales for classic novels and sci-fi/fantasy literature. Young readers are sharing their love for poetry and fanfiction on social media.', breaking:false },
+  { id:'r4',  cat:'arts', src:'resources', title:'K-Pop Influence Expands into Global Sneaker Culture', img:img('kpop,fashion',404), text:'K-Pop\'s massive popularity is expanding beyond music into global sneaker culture and streetwear fashion. Iconic idols are collaborating with major brands to create limited-edition collections.', breaking:false },
+  { id:'r5',  cat:'arts', src:'resources', title:'Retro Gaming Communities Thrive Through Speedrunning Events', img:img('gaming,retro',405), text:'Retro gaming communities are thriving thanks to popular speedrunning events on platforms like Twitch. Gamers are revisiting classic titles and finding new ways to complete them in record time.', breaking:false },
+  { id:'r6',  cat:'arts', src:'resources', title:'Graffiti Artist Banksy Challenges Traditional Art Norms', img:img('graffiti,street,art',406), text:'The mysterious Banksy continues to challenge traditional art norms through politically charged works appearing in public spaces, sparking intense debate about the role of art in society.', breaking:false },
+  { id:'r7',  cat:'arts', src:'resources', title:'Vinyl Collecting Trends Impact Modern Music Production', img:img('vinyl,record',407), text:'The continued popularity of vinyl collecting is surprising modern music production and album artwork design. Artists are again prioritizing the physical listening experience with gatefold sleeves.', breaking:false },
+  { id:'r8',  cat:'arts', src:'resources', title:'Podcasting Boom Creates New Opportunities for Audio Artists', img:img('podcast,audio',408), text:'The podcasting boom is creating exciting new opportunities for audio artists and music production specialists. Creators are exploring genres from true crime to lo-fi music and storytelling.', breaking:false },
+  { id:'r9',  cat:'arts', src:'resources', title:'\'Happy Patel\': Aamir Khan Productions announces Vir Das directorial debut', img:img('bollywood,film',2), text:'Vir Das is set to make his directorial debut with spy-comedy film Happy Patel: Khatarnak Jasoos, backed by Aamir Khan Productions. Scheduled for theatres January 16, 2026.', breaking:false },
+
+  // ── THE NATURAL WORLD (Green #43A047) ──
+  { id:'n1',  cat:'nature', src:'resources', title:'David Attenborough Warns of Climate Change Impacts', img:img('climate,nature',501), text:'David Attenborough issued a stark warning about accelerating climate change impacts on global biodiversity, calling for urgent conservation efforts to protect the Amazon Rainforest and Great Barrier Reef.', breaking:true },
+  { id:'n2',  cat:'nature', src:'resources', title:'Marine Biology Research Uncovers Deep Sea Wonders', img:img('ocean,marine',502), text:'Groundbreaking marine biology research has uncovered previously unknown species living in the deepest ocean. Scientists are using advanced technology to study these mysterious creatures and unique habitats.', breaking:false },
+  { id:'n3',  cat:'nature', src:'resources', title:'Urban Farming Initiatives Promote Zero Waste Living', img:img('urban,farming',503), text:'Urban farming and hydroponics initiatives are gaining popularity as people seek more sustainable city living. These projects encourage zero waste by composting organic materials and growing fresh produce locally.', breaking:false },
+  { id:'n4',  cat:'nature', src:'resources', title:'Himalayas Research Examines Impact of Melting Glaciers', img:img('himalayas,glacier',504), text:'New research in the Himalayas is examining the devastating impact of melting glaciers on local ecosystems and water supplies. This work is vital for developing strategies to protect vulnerable communities.', breaking:false },
+  { id:'n5',  cat:'nature', src:'resources', title:'Great Barrier Reef Conservation Efforts Show Progress', img:img('reef,coral',505), text:'Ongoing conservation efforts at the Great Barrier Reef are showing progress, with coral recovery observed in certain areas. Marine biologists are using innovative techniques to protect the reef from climate change.', breaking:false },
+  { id:'n6',  cat:'nature', src:'resources', title:'Renewable Energy Projects Transform Regional Landscapes', img:img('solar,wind,energy',506), text:'Large-scale renewable energy projects such as wind and solar farms are transforming regional landscapes and reducing carbon emissions, a critical component of the global strategy to combat climate change.', breaking:false },
+  { id:'n7',  cat:'nature', src:'resources', title:'Amazon Rainforest Protection Essential for Global Climate', img:img('amazon,forest',507), text:'Protecting the Amazon Rainforest remains a top priority for environmentalists due to its critical role in regulating the global climate. The forest acts as a massive carbon sink and biodiversity hub.', breaking:false },
+  { id:'n8',  cat:'nature', src:'resources', title:'Jane Goodall Advocates for Animal Welfare and Conservation', img:img('wildlife,conservation',508), text:'Jane Goodall continues to be a powerful voice for animal welfare and conservation of endangered species. Her work with chimpanzees has fundamentally changed our understanding of the animal kingdom.', breaking:false },
+  { id:'n9',  cat:'nature', src:'bbc.com',   title:'Brazil Expands Amazon Surveillance Using AI Drones', img:img('amazon,drone',7), text:'Brazil expanded AI-drone monitoring of illegal logging in the Amazon rainforest, combining conservation goals with cutting-edge technology to protect the world\'s largest tropical forest.', breaking:false },
+
+  // ── THE SELF & WELL-BEING (Orange #1565C0) ──
+  { id:'w1',  cat:'selfwell', src:'resources', title:'Atomic Habits Author Shares Productivity Secrets', img:img('habits,productivity',601), text:'James Clear, author of Atomic Habits, shared his latest productivity secrets for building a successful daily routine, emphasizing small consistent changes and the power of habit stacking.', breaking:false },
+  { id:'w2',  cat:'selfwell', src:'resources', title:'Mindfulness Practices Reduce Stress and Improve Mental Health', img:img('mindfulness,meditation',602), text:'Incorporating mindfulness and journaling into your daily life can significantly reduce stress and improve mental health. A dopamine detox can also help restore focus and clarity in our busy digital world.', breaking:false },
+  { id:'w3',  cat:'selfwell', src:'resources', title:'Andrew Huberman Discusses Science of Sleep and Fitness', img:img('health,fitness',603), text:'Andrew Huberman discussed the latest science regarding sleep, nutrition, and fitness on his popular podcast, emphasizing light exposure and timing for maintaining a healthy circadian rhythm.', breaking:false },
+  { id:'w4',  cat:'selfwell', src:'resources', title:'Veganism and Sourdough Baking: Healthy Nutrition Trends', img:img('vegan,food',604), text:'The popularity of veganism and sourdough baking continues to grow as people look for healthier food options. Many are exploring fermentation and coffee roasting as rewarding DIY culinary hobbies.', breaking:false },
+  { id:'w5',  cat:'selfwell', src:'resources', title:'Blue Zones Research Reveals Secrets to Longevity', img:img('longevity,health',605), text:'Research into Blue Zones, where people live significantly longer lives, reveals secrets to health and longevity. These communities prioritize whole foods, regular physical activity, and strong social connections.', breaking:false },
+  { id:'w6',  cat:'selfwell', src:'resources', title:'Gentle Parenting Techniques Foster Strong Family Bonds', img:img('parenting,family',606), text:'Gentle parenting and Montessori at home are becoming increasingly popular as parents look for more empathetic ways to raise their children, focusing on communication and healthy boundaries.', breaking:false },
+  { id:'w7',  cat:'selfwell', src:'resources', title:'Shadow Work and Journaling: Tools for Self-Discovery', img:img('journaling,self',607), text:'Using shadow work and journaling as tools for self-discovery can lead to profound personal growth and improved mental health. By exploring hidden parts of ourselves, we gain better self-understanding.', breaking:false },
+  { id:'w8',  cat:'selfwell', src:'who.int',   title:'WHO Warns of Rising Dengue Cases Across Southeast Asia', img:img('health,hospital',9), text:'The WHO issued a warning about a sharp rise in dengue fever cases across Southeast Asian countries, urging governments to strengthen vector-control programs and public health infrastructure.', breaking:true },
+
+  // ── PHILOSOPHY & BELIEF (Violet #8E24AA) ──
+  { id:'p1',  cat:'philo', src:'resources', title:'Dalai Lama Shares Wisdom on Compassion and Ethics', img:img('dalai,lama',701), text:'The Dalai Lama spoke to a global audience about the importance of compassion, meditation, and secular ethics, emphasizing that inner peace is the foundation for a better world.', breaking:false },
+  { id:'p2',  cat:'philo', src:'resources', title:'Marcus Aurelius and the Enduring Power of Stoicism', img:img('philosophy,stoicism',702), text:'The writings of Marcus Aurelius in Meditations continue to inspire those practicing stoicism, emphasizing virtue, reason, and accepting what we cannot control in modern life.', breaking:false },
+  { id:'p3',  cat:'philo', src:'resources', title:'AI Ethics and the Trolley Problem in Modern Philosophy', img:img('ethics,philosophy',703), text:'Modern philosophers are increasingly tackling complex ethical dilemmas posed by AI ethics and the classic trolley problem. Discussions on bioethics and free will are central to this academic discourse.', breaking:false },
+  { id:'p4',  cat:'philo', src:'resources', title:'Astrology and Tarot: Finding Meaning in the Esoteric', img:img('astrology,spiritual',704), text:'The popularity of astrology and tarot continues to grow as people seek meaning and guidance in the esoteric and occult, using these tools for self-reflection and exploring abstract aspects of life.', breaking:false },
+  { id:'p5',  cat:'philo', src:'resources', title:'Near-Death Experiences and the Mystery of the Afterlife', img:img('consciousness,spiritual',705), text:'The study of near-death experiences continues to fascinate both scientists and theologians, offering potential glimpses into the mystery of the afterlife and the nature of human consciousness.', breaking:false },
+  { id:'p6',  cat:'philo', src:'resources', title:'Stoicism and Nihilism: Contrasting Schools of Philosophy', img:img('philosophy,books',706), text:'The contrasting schools of stoicism and nihilism offer very different perspectives on the meaning of life and the nature of the self. Exploring these philosophies deepens our understanding of our own beliefs.', breaking:false },
+  { id:'p7',  cat:'philo', src:'resources', title:'The Alchemist: A Journey of Faith and Personal Legend', img:img('books,faith',707), text:'The Alchemist remains a beloved classic for its inspiring story of faith and pursuing one\'s personal legend. Its themes of mysticism and spiritual growth resonate with readers around the world.', breaking:false },
+  { id:'p8',  cat:'philo', src:'resources', title:'Tao Te Ching: Finding Harmony in the Way', img:img('eastern,philosophy',708), text:'The ancient Tao Te Ching remains a cornerstone of Eastern philosophy, offering profound wisdom on living in harmony with the natural world. Its simple yet deep verses encourage balance and releasing ego.', breaking:false },
+];
+
+const tribeData = [
+  { id:201, cat:'nature',  user:'@desi_explorer',   ava:ava(201), time:'2h',  title:'Golden hour at Hampi ruins 🌅', text:'Caught this magical moment while exploring the Vijayanagara Empire ruins. The light was absolutely otherworldly.', img:img('hampi,ruins',201), likes:1240, comments:[{user:'@travelbug',ava:ava(301),text:'Absolutely stunning! Which time of year is best to visit?',time:'1h',likes:44},{user:'@hampi_local',ava:ava(302),text:'You\'ve captured it perfectly! The west-facing Hemakuta Hill is even better.',time:'45m',likes:28}] },
+  { id:202, cat:'economy', user:'@corporate_slave',  ava:ava(202), time:'1d',  title:'Why do we normalize 60+ hour work weeks?', text:'When did burning out become a flex? My manager literally said "office is your second home". Is this a cultural problem unique to India?', img:null, likes:2500, comments:[{user:'@workholic_anon',ava:ava(303),text:'It\'s deeply cultural. "Log kya kahenge" extends even to work life.',time:'20h',likes:130},{user:'@startup_founder',ava:ava(304),text:'As a founder I\'ll say — hustle culture is overrated. Output > hours.',time:'18h',likes:95}] },
+  { id:203, cat:'arts',    user:'@meme_lord',        ava:ava(203), time:'6h',  title:'Desi parents during festivals vs rest of the year 🪔', text:'Parents giving ₹500 as Diwali gift vs interrogating you about ₹50 mobile recharge. The audacity.', img:img('diwali,festival',203), likes:3100, comments:[{user:'@chai_pete_baat',ava:ava(305),text:'My dad literally said \'these are family funds not pocket money\' 💀',time:'5h',likes:240}] },
+  { id:204, cat:'tech',    user:'@engineering_student', ava:ava(204), time:'12h', title:'Engineering students explaining their projects 😭', text:'Prof: "Show demo". Student sweating: "Sir, authentication error aa raha hai. Actually sir, it works on my laptop"', img:img('student,laptop',204), likes:1500, comments:[{user:'@cse_final_year',ava:ava(306),text:'Sir the internet was slow during the demo 😭😭',time:'11h',likes:180}] },
+  { id:205, cat:'society', user:'@political_observer', ava:ava(205), time:'3h', title:'Why does every political party suddenly care about youth before elections?', text:'5 years of ignoring unemployment, and then — "Yuva Shakti" banners everywhere. Classic.', img:null, likes:4200, comments:[{user:'@youth_voter',ava:ava(307),text:'This is so accurate it hurts 😔',time:'2h',likes:320},{user:'@democracy_now',ava:ava(308),text:'Vote them out. Simple.',time:'1h',likes:140}] },
+  { id:206, cat:'philo',   user:'@midnight_thinker', ava:ava(206), time:'8h', title:'Is social media making us more connected or more lonely?', text:'I have 1,200 followers who liked my post but not a single person to call at 2am. Something feels deeply wrong with this picture.', img:null, likes:6800, comments:[{user:'@existential_desi',ava:ava(309),text:'This hit different. The metrics of connection are broken.',time:'6h',likes:540},{user:'@tech_skeptic',ava:ava(310),text:'We traded depth for breadth. Social media = performative loneliness.',time:'5h',likes:210}] },
+  { id:207, cat:'selfwell',user:'@fitness_journey_in', ava:ava(207), time:'5h', title:'30-day no-junk food challenge — Day 18 update 💪', text:'Lost 2.5kg, skin is clearer, energy levels insane. Why did I ever eat that garbage? Sharing my dal-chawal + workout routine below.', img:img('fitness,workout',207), likes:2100, comments:[{user:'@health_india',ava:ava(311),text:'Dal chawal is literally a superfood. Proud of you!',time:'4h',likes:88}] },
+  { id:208, cat:'nature',  user:'@birder_bengaluru',  ava:ava(208), time:'1h', title:'Spotted a Purple Sunbird in my balcony garden 🐦', text:'Planted native flowering plants last monsoon and now I have a daily visitor! Urban biodiversity is real if we create the right conditions.', img:img('bird,garden',208), likes:890, comments:[{user:'@urban_nature',ava:ava(312),text:'Which plants? I want to try this!',time:'30m',likes:60}] },
+  { id:209, cat:'economy', user:'@firstgen_investor', ava:ava(209), time:'14h',title:'Things I wish someone told me before my first SIP investment', text:'1. Start early even if it\'s ₹500/month. 2. Don\'t panic sell. 3. Index funds > stock-picking for beginners. 4. Emergency fund first, always.', img:null, likes:5600, comments:[{user:'@sip_beginner',ava:ava(313),text:'Saving this forever. Thank you!',time:'12h',likes:280}] },
+  { id:210, cat:'arts',    user:'@indie_music_fan',   ava:ava(210), time:'9h', title:'Indian indie music is having its best year ever 🎵', text:'From Prateek Kuhad to Anuv Jain to When Chai Met Toast — the quality of independent music coming out of India right now is genuinely world-class.', img:img('music,concert',210), likes:3400, comments:[{user:'@indie_listener',ava:ava(314),text:'Add Ritviz and Naezy to that list!',time:'8h',likes:190}] },
+  { id:211, cat:'tech',    user:'@ai_watcher_in',     ava:ava(211), time:'4h', title:'The AI hype is real but also deeply unequal', text:'English-language AI is incredible. But try asking it anything in Telugu or Tamil and the quality drops off a cliff. Language equity in AI is a massive unsolved problem.', img:null, likes:3200, comments:[{user:'@desi_ml_eng',ava:ava(315),text:'Working on this exact problem at my startup. The data gap is enormous.',time:'3h',likes:165}] },
+  { id:212, cat:'philo',   user:'@stoic_student',     ava:ava(212), time:'20h',title:'Finished Meditations by Marcus Aurelius — changed my life', text:'"You have power over your mind, not outside events. Realize this and you will find strength." Reading this at 22 feels like unlocking a cheat code for life.', img:null, likes:4700, comments:[{user:'@book_rec',ava:ava(316),text:'Also read Epictetus next. The Enchiridion is short but powerful.',time:'18h',likes:220}] },
+];
+
+const tribeMeta = [
+  { id:'arts',    name:'Arts',      color:'#E53935', img:img('theater',10) },
+  { id:'selfwell',name:'Wellness',  color:'#1565C0', img:img('yoga',11) },
+  { id:'economy', name:'Economy',   color:'#546E7A', img:img('finance',12) },
+  { id:'nature',  name:'Nature',    color:'#43A047', img:img('forest',13) },
+  { id:'society', name:'Society',   color:'#1E88E5', img:img('crowd',14) },
+  { id:'tech',    name:'Tech',      color:'#3949AB', img:img('robot',15) },
+  { id:'philo',   name:'Philosophy',color:'#8E24AA', img:img('philosophy',16) },
+];
+
+const notifData = [
+  { img:img('conference,tech',21), title:'Globalisation Isn\'t Dying, we are about to witness it now...', time:'2 min' },
+  { img:img('cyclone,rescue',22),  title:'Cyclone Ditwah impact: India sends mobile field hospital, over 70 medical personnel to Sri Lanka', time:'5 min' },
+  { img:img('ai,chip',23),         title:'Tech giant announces new AI privacy features for 2026', time:'12 min' },
+  { img:img('space,rocket',24),    title:'SpaceX Starship completes third successful orbital test', time:'1 hr' },
+];
+
+// ── STATE ──
+let ST = JSON.parse(localStorage.getItem('ib5') || '{"likes":[],"saves":[]}');
+let isDark = true, isMuted = true, homeIdx = 0, expIdx = 0, byteIdx = 0, curChip = 'all';
+let byteObs;
+const save = () => localStorage.setItem('ib5', JSON.stringify(ST));
+
+// ── BYTE SNAP HEIGHT — measure actual phone el ──
+function setByteSnapHeight() {
+  const phone = document.getElementById('app');
+  const h = phone.clientHeight;
+  const hh = 52; // header height px
+  const nh = 62; // nav height px
+  const bsh = h - hh - nh;
+  document.documentElement.style.setProperty('--bsh', bsh + 'px');
+  // Re-apply to all existing .bs elements too
+  document.querySelectorAll('.bs').forEach(el => {
+    el.style.height = bsh + 'px';
+    el.style.minHeight = bsh + 'px';
+    el.style.maxHeight = bsh + 'px';
+  });
+}
+
+// ── TOAST ──
+let toastT;
+function toast(msg) {
+  clearTimeout(toastT);
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  toastT = setTimeout(() => el.classList.remove('show'), 2500);
+}
+
+// ── THEME ──
+function toggleTheme() {
+  isDark = !isDark;
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+}
+
+// ── SIDEBAR ──
+function sbOpen() {
+  document.getElementById('sidebar').classList.add('on');
+  document.getElementById('overlay').classList.add('on');
+}
+function sbClose() {
+  document.getElementById('sidebar').classList.remove('on');
+  document.getElementById('overlay').classList.remove('on');
+}
+
+// ── SUB PAGES ──
+function openSub(id) { sbClose(); document.getElementById('sub-'+id)?.classList.add('on'); }
+function closeSub(id) { document.getElementById('sub-'+id)?.classList.remove('on'); }
+
+// ── TOGGLE ROWS ──
+function togRow(el) { el.classList.toggle('on'); toast(el.classList.contains('on') ? '✓ Enabled' : '✗ Disabled'); }
+function selPriv(el) { el.closest('.priv-level').querySelectorAll('.pl').forEach(p=>p.classList.remove('on')); el.classList.add('on'); toast('🔒 Visibility: '+el.textContent.trim()); }
+
+// ── CHIP ──
+function selectChip(el, cat) {
+  document.querySelectorAll('.chip').forEach(c => { c.classList.remove('on'); c.style.background=''; });
+  el.classList.add('on'); el.style.background = 'var(--accent)';
+  curChip = cat;
+  document.getElementById('home-feed').innerHTML = '';
+  homeIdx = 0; renderHome(5);
+}
+
+// ── READ MORE / LESS ──
+function toggleDesc(btn) {
+  const inner = btn.previousElementSibling;
+  const expanded = inner.classList.toggle('expanded');
+  btn.textContent = expanded ? 'read less' : 'read more';
+}
+
+// ── LIKE / SAVE ──
+function toggleLike(id, el) {
+  const i = ST.likes.indexOf(id);
+  if (i === -1) { ST.likes.push(id); el.classList.add('liked'); }
+  else { ST.likes.splice(i,1); el.classList.remove('liked'); }
+  el.style.animation = 'heartPop 0.35s forwards';
+  el.addEventListener('animationend', ()=>el.style.animation='',{once:true});
+  save();
+}
+function toggleSave(id, el) {
+  const i = ST.saves.indexOf(id);
+  if (i === -1) { ST.saves.push(id); el.classList.add('saved'); toast('🔖 Saved!'); }
+  else { ST.saves.splice(i,1); el.classList.remove('saved'); toast('✓ Removed'); if(document.getElementById('v-bookmarks').classList.contains('active')) renderBM(); }
+  el.style.animation = 'heartPop 0.3s forwards';
+  el.addEventListener('animationend', ()=>el.style.animation='',{once:true});
+  save(); document.getElementById('saved-ct').textContent = ST.saves.length;
+}
+
+// ── HOME ──
+function renderHome(n=5) {
+  const c = document.getElementById('home-feed');
+  const pool = curChip === 'all' ? articles : articles.filter(a => a.cat === curChip);
+  if (!pool.length) { c.innerHTML = '<div style="text-align:center;color:var(--t3);padding:40px 20px">No articles for this category.</div>'; return; }
+  for (let i=0;i<n;i++) {
+    const a = pool[homeIdx++ % pool.length];
+    const cc = CAT_COLORS[a.cat] || CAT_COLORS.society;
+    const liked = ST.likes.includes(a.id), saved = ST.saves.includes(a.id);
+    const d = document.createElement('div');
+    d.className = 'nc fadein';
+    d.innerHTML = `
+      <div class="nc-meta">
+        <div class="nc-src-ico">${a.src.charAt(0).toUpperCase()}</div>
+        <span class="nc-src">${a.src}</span>
+        <i class="fa-solid fa-link nc-link" style="font-size:0.55rem"></i>
+        ${a.breaking ? `<span class="nc-tag" style="background:${cc.bg};color:${cc.hex}">BREAKING</span>` : ''}
+      </div>
+      <div class="nc-body">
+        <div class="nc-text">
+          <div class="nc-title">${a.title}</div>
+          <div class="nc-desc">
+            <div class="nc-desc-inner">${a.text}</div>
+            <span class="nc-read tap" onclick="toggleDesc(this)">read more</span>
+          </div>
+        </div>
+        <img class="nc-img" src="${a.img}" loading="lazy" alt="">
+      </div>
+      <div class="nc-acts">
+        <div class="nc-act tap ${liked?'red':''}" onclick="toggleLike('${a.id}',this)">
+          <i class="fa-${liked?'solid':'regular'} fa-heart"></i>
+        </div>
+        <div class="nc-act tap ${saved?'acc':''}" onclick="toggleSave('${a.id}',this)">
+          <i class="fa-${saved?'solid':'regular'} fa-bookmark"></i>
+        </div>
+        <div class="nc-act tap"><i class="fa-solid fa-rotate"></i></div>
+        <div class="nc-act tap" onclick="shareArt('${a.title.replace(/'/g,"\\'")}')"><i class="fa-solid fa-paper-plane"></i></div>
+      </div>`;
+    c.appendChild(d);
+  }
+}
+
+// ── EXPLORE ──
+function renderExpCats() {
+  const c = document.getElementById('exp-cats');
+  if (c.children.length) return;
+  const cats = [
+    { label:'Top News', color:'#1565C0', icon:'fa-fire' },
+    { label:'Global News', color:'#1E88E5', icon:'fa-globe' },
+    { label:'Gaming', color:'#3949AB', icon:'fa-gamepad' },
+    { label:'Science News', color:'#43A047', icon:'fa-flask' },
+    { label:'Business', color:'#546E7A', icon:'fa-briefcase' },
+    { label:'Arts', color:'#E53935', icon:'fa-palette' },
+    { label:'Philosophy', color:'#8E24AA', icon:'fa-book' },
+  ];
+  cats.forEach(ct => {
+    const d = document.createElement('div');
+    d.className = 'cat-item tap';
+    d.onclick = () => toast('📂 ' + ct.label);
+    d.innerHTML = `<div class="cat-icon" style="color:${ct.color};border-color:${ct.color}"><i class="fa-solid ${ct.icon}"></i></div><div class="cat-label">${ct.label}</div>`;
+    c.appendChild(d);
+  });
+}
+
+function renderExpFeat() {
+  const c = document.getElementById('exp-feat');
+  if (c.children.length) return;
+  const a = articles[0];
+  const d = document.createElement('div');
+  d.className = 'feat-story tap';
+  d.innerHTML = `<img src="${a.img}" loading="lazy" alt=""><div class="feat-overlay"><div class="feat-src">${a.src} <i class="fa-solid fa-link" style="font-size:0.55rem"></i></div><div class="feat-title">${a.title}</div></div>`;
+  c.appendChild(d);
+}
+
+function renderExpGrid(n=8) {
+  const c = document.getElementById('exp-grid');
+  for (let i=0;i<n;i++) {
+    const a = articles[expIdx++ % articles.length];
+    const d = document.createElement('div');
+    d.className = 'eg-item fadein';
+    d.onclick = () => toast('📰 Opening article...');
+    if (Math.random() > 0.25) {
+      d.innerHTML = `<img src="${a.img}" loading="lazy" alt=""><div class="eg-info"><div class="eg-src-row"><i class="fa-solid fa-circle-nodes eg-src-ico"></i><span class="eg-src-lbl">${a.src}</span><i class="fa-solid fa-link eg-link-ico"></i></div><div class="eg-title">${a.title}</div></div>`;
+    } else {
+      d.innerHTML = `<div class="ad-block">AD</div>`;
+    }
+    c.appendChild(d);
+  }
+}
+
+// ── BYTES ──
+function buildByte(a) {
+  const cc = CAT_COLORS[a.cat] || CAT_COLORS.society;
+  const liked = ST.likes.includes(a.id), saved = ST.saves.includes(a.id);
+  const d = document.createElement('div');
+  d.className = 'bs';
+  // Apply exact measured height immediately
+  const phone = document.getElementById('app');
+  const bsh = phone.clientHeight - 52 - 62;
+  if (bsh > 0) {
+    d.style.height = bsh + 'px';
+    d.style.minHeight = bsh + 'px';
+    d.style.maxHeight = bsh + 'px';
+  }
+  d.innerHTML = `
+    <div class="bc">
+      <div class="bc-img">
+        <img src="${a.img}" loading="lazy" alt="">
+        <div class="bc-cat" style="color:${cc.hex};border-color:rgba(${hexToRgb(cc.hex)},0.3)">
+          <i class="fa-solid fa-tag" style="font-size:0.6rem"></i> ${cc.label}
+        </div>
+      </div>
+      <div class="bc-text">
+        <div class="bc-src-row">
+          <div class="bc-src-dot">${a.src.charAt(0).toUpperCase()}</div>
+          <span class="bc-src-name">${a.src}</span>
+          <i class="fa-solid fa-link bc-link" style="font-size:0.55rem"></i>
+        </div>
+        <div class="bc-title">${a.title}</div>
+        <div class="bc-body">${a.text}</div>
+      </div>
+    </div>
+    <div class="ba">
+      <div class="ba-btn" onclick="toggleLike('${a.id}',this.querySelector('i'))">
+        <i class="fa-${liked?'solid':'regular'} fa-heart${liked?' liked':''}"></i>
+        <span class="ba-lbl">Like</span>
+      </div>
+      <div class="ba-btn" onclick="toggleSave('${a.id}',this.querySelector('i'))">
+        <i class="fa-${saved?'solid':'regular'} fa-bookmark${saved?' saved':''}"></i>
+        <span class="ba-lbl">Save</span>
+      </div>
+      <div class="ba-btn" onclick="repostByte('${a.id}','${a.title.replace(/'/g,"\\'").replace(/"/g,'&quot;')}')">
+        <i class="fa-solid fa-retweet"></i>
+        <span class="ba-lbl">Repost</span>
+      </div>
+      <div class="ba-btn" onclick="shareArt('${a.title.replace(/'/g,"\\'")}')">
+        <i class="fa-solid fa-paper-plane"></i>
+        <span class="ba-lbl">Share</span>
+      </div>
+    </div>`;
+  return d;
+}
+function hexToRgb(hex) {
+  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+  return `${r},${g},${b}`;
+}
+
+// Bytes: cycle through all 7 categories in sequence for variety
+const BYTE_CATS = ['society','economy','tech','arts','nature','selfwell','philo'];
+let bytePoolIdx = {}; // per-category index
+BYTE_CATS.forEach(c => bytePoolIdx[c] = 0);
+
+function getNextByteArticle(catCyclePos) {
+  const cat = BYTE_CATS[catCyclePos % BYTE_CATS.length];
+  const pool = articles.filter(a => a.cat === cat);
+  if (!pool.length) return articles[byteIdx++ % articles.length];
+  const idx = bytePoolIdx[cat]++ % pool.length;
+  return pool[idx];
+}
+
+function renderBytes(n=7) {
+  const c = document.getElementById('bytes-feed');
+  for (let i=0;i<n;i++) {
+    const a = getNextByteArticle(byteIdx++);
+    c.appendChild(buildByte(a));
+  }
+  setupByteObs();
+}
+function filterBytes(cat) {
+  const c = document.getElementById('bytes-feed');
+  c.innerHTML = ''; byteIdx = 0;
+  BYTE_CATS.forEach(c => bytePoolIdx[c] = 0);
+  const pool = articles.filter(a=>a.cat===cat);
+  (pool.length ? pool : articles).forEach(a=>c.appendChild(buildByte(a)));
+  navTo('bytes'); toast('⚡ '+cat+' bytes');
+  setupByteObs();
+}
+function setupByteObs() {
+  if (byteObs) byteObs.disconnect();
+  byteObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('playing'); else e.target.classList.remove('playing'); });
+  }, { threshold:0.5, root:document.getElementById('v-bytes') });
+  document.querySelectorAll('.bs').forEach(s=>byteObs.observe(s));
+}
+// ── REPOST ──
+let repostFeed = [];
+function repostByte(id, title) {
+  const a = articles.find(x=>x.id===id);
+  if (!a) return;
+  const already = repostFeed.find(r=>r.id===id);
+  if (already) { toast('Already reposted!'); return; }
+  repostFeed.unshift({...a, repostedAt: new Date().toLocaleTimeString()});
+  renderReposts();
+  // ✅ Just show toast — do NOT navigate away from bytes
+  toast('🔁 Reposted to your feed!');
+}
+function renderReposts() {
+  const c = document.getElementById('repost-feed');
+  c.innerHTML = '';
+  if (!repostFeed.length) {
+    c.innerHTML = '<div style="text-align:center;color:var(--t3);padding:60px 20px;font-size:0.9rem">No reposts yet.<br>Repost bytes to see them here.</div>';
+    return;
+  }
+  repostFeed.forEach(a => {
+    const cc = CAT_COLORS[a.cat] || CAT_COLORS.society;
+    const d = document.createElement('div');
+    d.className = 'nc fadein';
+    d.innerHTML = `
+      <div class="nc-meta">
+        <i class="fa-solid fa-retweet" style="color:var(--c-green);font-size:0.8rem"></i>
+        <span class="nc-src" style="color:var(--c-green)">You reposted · ${a.repostedAt}</span>
+      </div>
+      <div class="nc-meta" style="margin-top:4px">
+        <div class="nc-src-ico">${a.src.charAt(0).toUpperCase()}</div>
+        <span class="nc-src">${a.src}</span>
+        <span class="nc-tag" style="background:${cc.bg};color:${cc.hex};margin-left:auto">${cc.label}</span>
+      </div>
+      <div class="nc-body">
+        <div class="nc-text">
+          <div class="nc-title">${a.title}</div>
+          <div class="nc-desc">${a.text}</div>
+        </div>
+        <img class="nc-img" src="${a.img}" loading="lazy" alt="">
+      </div>`;
+    c.appendChild(d);
+  });
+}
+
+function toggleMute() {
+  isMuted = !isMuted;
+  document.getElementById('vol-icon').className = isMuted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high';
+}
+function renderTribeCircles() {
+  const c = document.getElementById('tribe-circles');
+  if (c.children.length) return;
+  tribeMeta.forEach((t,i) => {
+    const d = document.createElement('div');
+    d.className = 'tc-item tap';
+    d.onclick = () => toast('🔥 @'+t.name+' Tribe');
+    d.innerHTML = `<div class="tc-ring" style="border-color:${t.color}">
+      <img src="${t.img}" alt="">
+      ${i<2 ? '<div class="tc-live"></div>' : ''}
+    </div><div class="tc-name">${t.name}</div>`;
+    c.appendChild(d);
+  });
+}
+
+function renderTribe() {
+  renderTribeCircles();
+  const c = document.getElementById('tribe-feed');
+  c.innerHTML = '';
+  tribeData.forEach(p => {
+    const cc = CAT_COLORS[p.cat] || CAT_COLORS.society;
+    const liked = ST.likes.includes('t'+p.id);
+    const open = false;
+    const cHtml = p.comments.map(cm => `
+      <div class="cmt">
+        <div class="cmt-ava"><img src="${cm.ava}" loading="lazy" alt=""></div>
+        <div class="cmt-body">
+          <div class="cmt-user">${cm.user}</div>
+          <div class="cmt-text">${cm.text}</div>
+          <div style="display:flex;gap:10px;align-items:center;margin-top:3px">
+            <div class="cmt-time">${cm.time}</div>
+            <div class="cmt-like tap" onclick="toast('❤️ Liked comment')"><i class="fa-regular fa-heart"></i> ${cm.likes}</div>
+            <div class="cmt-like tap" onclick="toast('↩️ Replying...')"><i class="fa-solid fa-reply"></i> Reply</div>
+          </div>
+        </div>
+      </div>`).join('');
+    const d = document.createElement('div');
+    d.className = 'tp fadein';
+    d.innerHTML = `
+      <div class="tp-head">
+        <div class="tp-ava"><img src="${p.ava}" loading="lazy" alt=""></div>
+        <div class="tp-meta">
+          <div class="tp-tribe" style="background:${cc.bg};color:${cc.hex}">@${p.cat}</div>
+          <div class="tp-user">${p.user} · ${p.time}</div>
+        </div>
+        <i class="fa-solid fa-ellipsis tp-more tap" onclick="showPostMenu(this)"></i>
+      </div>
+      <div class="tp-title">${p.title}</div>
+      ${p.text ? `<div class="tp-text">${p.text}</div>` : ''}
+      ${p.img ? `<img class="tp-img" src="${p.img}" loading="lazy" alt="">` : ''}
+      <div class="tp-acts">
+        <div class="tp-act tap ${liked?'liked':''}" onclick="likeTribePost(this,'t${p.id}')">
+          <i class="fa-${liked?'solid':'regular'} fa-heart"></i> <span>${p.likes}</span>
+        </div>
+        <div class="tp-act tap" onclick="toggleComments(this)">
+          <i class="fa-regular fa-comment"></i> ${p.comments.length}
+        </div>
+        <div class="tp-act tap" onclick="shareArt('${p.title.replace(/'/g,"\\'")}')"><i class="fa-solid fa-share-nodes"></i></div>
+        <div class="tp-act tap" onclick="toast('🔖 Saved to Bookmarks')"><i class="fa-regular fa-bookmark"></i></div>
+        <div class="tp-act tap" onclick="toast('🚩 Reported')"><i class="fa-regular fa-flag"></i></div>
+      </div>
+      <div class="tp-comments">
+        ${cHtml}
+        <div class="cmt-input-row">
+          <input class="cmt-inp" placeholder="Write a comment…" onkeydown="if(event.key==='Enter')sendCmt(this)">
+          <div class="cmt-send tap" onclick="sendCmt(this.previousElementSibling)"><i class="fa-solid fa-paper-plane"></i></div>
+        </div>
+      </div>`;
+    c.appendChild(d);
+  });
+}
+function toggleComments(btn) {
+  const tc = btn.closest('.tp').querySelector('.tp-comments');
+  tc.classList.toggle('open');
+  const ico = btn.querySelector('i');
+  ico.className = tc.classList.contains('open') ? 'fa-solid fa-comment' : 'fa-regular fa-comment';
+}
+function sendCmt(inp) {
+  const val = inp.value.trim();
+  if (!val) return;
+  const tc = inp.closest('.tp-comments');
+  const cmt = document.createElement('div');
+  cmt.className = 'cmt fadein';
+  cmt.innerHTML = `<div class="cmt-ava"><img src="${ava(999)}" alt=""></div><div class="cmt-body"><div class="cmt-user">@jashwanth1621</div><div class="cmt-text">${val}</div><div class="cmt-time">Just now</div></div>`;
+  tc.insertBefore(cmt, tc.querySelector('.cmt-input-row'));
+  inp.value = '';
+  toast('💬 Comment posted!');
+  // update count in acts
+  const btn = inp.closest('.tp').querySelector('.tp-act i.fa-comment, .tp-act i.fa-solid.fa-comment');
+  if (btn?.parentNode) {
+    const span = btn.parentNode;
+    const cur = parseInt(span.textContent.trim()) || 0;
+    span.innerHTML = `<i class="fa-solid fa-comment"></i> ${cur+1}`;
+  }
+}
+function likeTribePost(btn, id) {
+  const i = ST.likes.indexOf(id);
+  if (i===-1) { ST.likes.push(id); btn.classList.add('liked'); }
+  else { ST.likes.splice(i,1); btn.classList.remove('liked'); }
+  const ico = btn.querySelector('i');
+  ico.className = btn.classList.contains('liked') ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
+  ico.style.animation = 'heartPop 0.35s forwards';
+  ico.addEventListener('animationend',()=>ico.style.animation='',{once:true});
+  save();
+}
+function showPostMenu(btn) {
+  toast('⚙️ Report · Hide · Block · Copy link');
+}
+
+// ── NOTIFICATIONS ──
+function renderNotifs() {
+  const c = document.getElementById('notifs-feed');
+  c.innerHTML = '';
+  notifData.forEach((n,i) => {
+    const d = document.createElement('div');
+    d.className = 'notif tap fadein';
+    d.innerHTML = `
+      <img class="notif-img" src="${n.img}" loading="lazy" alt="">
+      <div class="notif-body">
+        <div class="notif-title">${n.title}</div>
+        <div class="notif-time">${n.time}</div>
+      </div>`;
+    c.appendChild(d);
+  });
+}
+
+// ── BOOKMARKS ──
+function renderBM() {
+  const c = document.getElementById('bm-feed');
+  c.innerHTML = '';
+  const saved = articles.filter(a => ST.saves.includes(a.id));
+  if (!saved.length) { c.innerHTML = '<div style="text-align:center;color:var(--t3);padding:50px 20px">No bookmarks yet. Save articles to read later.</div>'; return; }
+  saved.forEach(a => {
+    const d = document.createElement('div');
+    d.className = 'bm-card fadein';
+    d.innerHTML = `<div class="bm-title">${a.title}</div><div class="bm-src">${a.src} · ${a.cat}</div><img class="bm-img" src="${a.img}" loading="lazy" alt=""><div class="bm-acts"><i class="fa-regular fa-heart bm-act tap" onclick="toggleLike('${a.id}',this)"></i><i class="fa-solid fa-bookmark bm-act saved tap" onclick="toggleSave('${a.id}',this)"></i><i class="fa-solid fa-share-nodes bm-act tap" onclick="shareArt('${a.title.replace(/'/g,"\\'")}')"></i></div>`;
+    c.appendChild(d);
+  });
+}
+
+// ── POST MODAL ──
+function openPost() { document.getElementById('post-modal').classList.add('on'); }
+function closePost() { document.getElementById('post-modal').classList.remove('on'); }
+function submitPost() {
+  const cat   = document.getElementById('pm-cat').value;
+  const title = document.getElementById('pm-title').value.trim();
+  const body  = document.getElementById('pm-body').value.trim();
+  if (!title) { toast('⚠️ Please add a title'); return; }
+  const cc = CAT_COLORS[cat] || CAT_COLORS.arts;
+  tribeData.unshift({ id:Date.now(), cat, user:'@jashwanth1621', ava:ava(99), time:'Just now', title, text:body, img:null, likes:0, comments:[] });
+  renderTribe();
+  closePost();
+  document.getElementById('pm-title').value = '';
+  document.getElementById('pm-body').value = '';
+  toast('✓ Posted to @'+cc.label);
+}
+
+// ── SHARE ──
+function shareArt(title) {
+  if (navigator.share) navigator.share({title:'SherByte: '+title,url:location.href}).catch(()=>{});
+  else { navigator.clipboard?.writeText(title).catch(()=>{}); toast('📋 Copied to clipboard'); }
+}
+
+// ── NAV ──
+const VIEW_MAP = { home:'v-home', explore:'v-explore', tribe:'v-tribe', bytes:'v-bytes', profile:'v-profile', bookmarks:'v-bookmarks', notifs:'v-notifs', reposts:'v-reposts', feed:'v-feed' };
+const NB_MAP   = { home:'nb-home', explore:'nb-explore', tribe:'nb-tribe', bytes:'nb-bytes', profile:'nb-profile' };
+
+function navTo(name) {
+  document.querySelectorAll('audio').forEach(a=>a.pause());
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  const vEl = document.getElementById(VIEW_MAP[name]);
+  if (vEl) vEl.classList.add('active');
+  const nb = document.getElementById(NB_MAP[name]);
+  if (nb) nb.classList.add('on');
+
+  const hBrand = document.getElementById('h-brand');
+  const hPage  = document.getElementById('h-page');
+  const hSearch= document.getElementById('h-search');
+  const hVol   = document.getElementById('h-vol');
+  const hdr    = document.getElementById('hdr');
+
+  hBrand.style.display='flex'; hPage.style.display='none';
+  hSearch.style.display='none'; hVol.style.display='none';
+  hdr.classList.remove('solid');
+
+  if (name==='bytes') { hVol.style.display='flex'; setTimeout(setByteSnapHeight, 30); }
+  else if (name==='explore') { hBrand.style.display='none'; hPage.style.display='block'; hPage.textContent='Explore'; hSearch.style.display='flex'; hdr.classList.add('solid'); }
+  else if (name==='feed') { hBrand.style.display='none'; hPage.style.display='block'; hPage.textContent='FEED Pulse'; hdr.classList.add('solid'); }
+  else if (['tribe','profile','bookmarks','notifs','reposts'].includes(name)) {
+    hBrand.style.display='none'; hPage.style.display='block';
+    const lbls = { tribe:'Tribe', profile:'Profile', bookmarks:'Bookmarks', notifs:'Notifications', reposts:'My Reposts' };
+    hPage.textContent = lbls[name]; hdr.classList.add('solid');
+  }
+
+  if (name==='tribe') renderTribe();
+  if (name==='bookmarks') renderBM();
+  if (name==='notifs') renderNotifs();
+  if (name==='reposts') renderReposts();
+  if (name==='profile') document.getElementById('saved-ct').textContent = ST.saves.length;
+}
+
+// ── SCOPE TOGGLE (Explore) ──
+function selScope(btn, scope) {
+  btn.closest('.scope-toggle').querySelectorAll('.scope-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  toast('📍 ' + scope.charAt(0).toUpperCase() + scope.slice(1) + ' stories');
+}
+
+// ── INFINITE SCROLL ──
+document.getElementById('v-home').addEventListener('scroll', e => {
+  if (e.target.scrollTop+e.target.clientHeight >= e.target.scrollHeight-220) renderHome(5);
+});
+document.getElementById('v-explore').addEventListener('scroll', e => {
+  if (e.target.scrollTop+e.target.clientHeight >= e.target.scrollHeight-220) renderExpGrid(6);
+});
+document.getElementById('v-bytes').addEventListener('scroll', e => {
+  if (e.target.scrollTop+e.target.clientHeight >= e.target.scrollHeight-600) renderBytes(7);
+});
+
+// ── INIT ──
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('splash').classList.add('gone'), 2000);
+  setByteSnapHeight();
+});
+window.addEventListener('resize', setByteSnapHeight);
+
+document.addEventListener('DOMContentLoaded', () => {
+  setByteSnapHeight();
+  renderHome(10);
+  renderExpCats();
+  renderExpFeat();
+  renderExpGrid(16);
+  renderBytes(14);
+  renderTribe();
+  renderNotifs();
+  document.getElementById('saved-ct').textContent = ST.saves.length;
+});
+</script>
+</body>
+</html>

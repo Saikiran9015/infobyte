@@ -214,7 +214,7 @@ def process_with_ai(title, content):
     2. The summary MUST be exactly between 60 and 63 words long. Use professional and engaging tone.
     3. Categorize it into one of: (arts, selfwell, economy, nature, society, tech, philo).
        - arts: Arts & Culture, selfwell: Self & Well-being, economy: Business & Economy, nature: The Natural World, society: Society & Governance, tech: Science & Tech, philo: Philosophy & Belief
-    4. Provide translations for the headline and summary in: Hindi, Telugu, Tamil.
+    4. Provide translations for the headline and summary in: Hindi, Telugu, Tamil, Malayalam, Kannada, Marathi, Spanish, French, German.
     5. Evaluate the "Fake News Score" from 0.0 (Reliable) to 1.0 (Likely Fake) based on the content and common knowledge.
 
     Return the result in strictly JSON format:
@@ -223,9 +223,15 @@ def process_with_ai(title, content):
         "category": "...",
         "summary": "...",
         "translations": {{
-            "hindi": {{"headline": "...", "summary": "..."}},
-            "telugu": {{"headline": "...", "summary": "..."}},
-            "tamil": {{"headline": "...", "summary": "..."}}
+            "Hindi": {{"headline": "...", "summary": "..."}},
+            "Telugu": {{"headline": "...", "summary": "..."}},
+            "Tamil": {{"headline": "...", "summary": "..."}},
+            "Malayalam": {{"headline": "...", "summary": "..."}},
+            "Kannada": {{"headline": "...", "summary": "..."}},
+            "Marathi": {{"headline": "...", "summary": "..."}},
+            "Spanish": {{"headline": "...", "summary": "..."}},
+            "French": {{"headline": "...", "summary": "..."}},
+            "German": {{"headline": "...", "summary": "..."}}
         }},
         "fake_news_score": 0.0
     }}

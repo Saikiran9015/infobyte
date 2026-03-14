@@ -42,6 +42,7 @@ try:
     collection_engagements = db["engagements"]
     collection_posts = db["posts"]
     collection_notifications = db["notifications"]
+    collection_meta = db["meta"]
     
     # Simple check
     mongo_client.admin.command('ping')
@@ -139,6 +140,7 @@ if not DB_CONNECTED:
     collection_engagements = MockCollection("engagements")
     collection_posts = MockCollection("posts")
     collection_notifications = MockCollection("notifications")
+    collection_meta = MockCollection("meta")
 
 @app.template_filter('from_json')
 def from_json_filter(s):
@@ -308,10 +310,12 @@ lsh = MinHashLSH(threshold=0.8, num_perm=128)
 def sync_news(location='in'):
     articles = fetch_latest_news(location)
     process_articles_batch(articles)
+    collection_meta.update_one({"id": "last_sync"}, {"$set": {"time": datetime.datetime.utcnow().isoformat()}}, upsert=True)
 
 def sync_search_query(query):
     articles = fetch_search_news(query)
     process_articles_batch(articles)
+    collection_meta.update_one({"id": f"sync_{query}"}, {"$set": {"time": datetime.datetime.utcnow().isoformat()}}, upsert=True)
 
 def process_articles_batch(articles):
     for item in articles:
@@ -817,7 +821,14 @@ def get_feed():
     merged = local_news + global_news
     # Sort by date
     merged.sort(key=lambda x: x.get('created_at', ''), reverse=True)
-    return jsonify(merged[:30])
+    
+    last_sync = collection_meta.find_one({"id": "last_sync"})
+    sync_time = last_sync["time"] if last_sync else None
+    
+    return jsonify({
+        "articles": merged[:30],
+        "last_sync": sync_time
+    })
 
 @app.route('/api/sync/search')
 def trigger_search_sync():

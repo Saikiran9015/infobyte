@@ -1360,6 +1360,7 @@ header.solid { background:var(--bg1); border-bottom-color:var(--line); }
   <div class="h-right">
     <div class="hico tap" id="h-search" style="display:none" onclick="toggleSearch(true)"><i class="fa-solid fa-magnifying-glass"></i></div>
     <div class="hico tap" id="h-vol" style="display:none" onclick="toggleMute()"><i id="vol-icon" class="fa-solid fa-volume-xmark"></i></div>
+    <div class="hico tap" id="h-sync-btn" onclick="refreshPulse()" title="Refresh News Pulse"><i class="fa-solid fa-arrows-rotate"></i></div>
     <div class="hico tap" onclick="navTo('notifs')"><i class="fa-regular fa-bell"></i></div>
     <div class="theme-pill tap" id="thpill" onclick="toggleTheme()" title="Toggle theme"></div>
     <div class="h-avatar tap" onclick="navTo('profile')">
@@ -2552,21 +2553,48 @@ function shareArt(title) {
 }
 
 // ── LOCATION & FEED SYNC ──
+async function refreshPulse() {
+  const btn = document.getElementById('h-sync-btn');
+  if (btn) btn.classList.add('fa-spin');
+  toast('⚡ Synchronizing Global Pulse...');
+  
+  try {
+    await fetch('/sync', { method: 'POST' });
+    await syncLocationFeed();
+    toast('✅ News Pulse Updated Successfully');
+  } catch(e) {
+    toast('⚠️ Sync failed. Try again later.');
+  } finally {
+    if (btn) btn.classList.remove('fa-spin');
+  }
+}
+
 async function syncLocationFeed() {
   try {
-    // Attempt detect or use default for user in Mumbai
     const res = await fetch('https://ipapi.co/json/');
     const data = await res.json();
     if (data.country_code) userLocation = data.country_code.toLowerCase();
-  } catch(e) { userLocation = 'in'; } // Default to 'in' as per user location dump
+  } catch(e) { userLocation = 'in'; }
   
   toast('📍 Tuning to ' + userLocation.toUpperCase() + ' Pulse...');
   
   try {
     const res = await fetch(`/api/feed?location=${userLocation}`);
-    const liveArticles = await res.json();
+    const data = await res.json();
+    const liveArticles = data.articles || [];
+    
+    // Auto-refresh if news is older than 60 mins
+    if (data.last_sync) {
+      const last = new Date(data.last_sync);
+      const diff = (new Date() - last) / (1000 * 60);
+      if (diff > 60) {
+        console.log("News stale (" + Math.round(diff) + "m). Auto-syncing...");
+        refreshPulse(); 
+        return; 
+      }
+    }
+
     if (liveArticles && liveArticles.length) {
-      // Map backend fields to frontend fields
       const mapped = liveArticles.map(a => ({
         id: a.id,
         cat: a.category,
@@ -2576,7 +2604,6 @@ async function syncLocationFeed() {
         text: a.summary,
         breaking: a.fake_news_score < 0.2
       }));
-      // Prep articles array for rendering
       articles.length = 0;
       articles.push(...mapped);
       document.getElementById('home-feed').innerHTML = '';

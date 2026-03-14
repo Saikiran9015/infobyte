@@ -1392,14 +1392,37 @@ header.solid { background:var(--bg1); border-bottom-color:var(--line); }
         Continue with Google
       </div>
       <div class="si-sep"><span>OR</span></div>
-      <input type="email" placeholder="Email address" class="si-inp">
-      <button class="si-btn primary tap" onclick="navTo('home')">Sign In</button>
+      <input type="email" id="login-email" placeholder="Email address" class="si-inp" onkeydown="if(event.key==='Enter')loginUser()">
+      <input type="password" id="login-pass" placeholder="Password" class="si-inp" onkeydown="if(event.key==='Enter')loginUser()">
+      <button class="si-btn primary tap" onclick="loginUser()">Sign In</button>
       <div class="si-links">
         <span>Forgot password?</span>
-        <span>Create account</span>
+        <span class="tap" style="font-weight:700" onclick="navTo('signup')">Create account</span>
       </div>
     </div>
     <div class="si-foot">By continuing, you agree to our Terms & Privacy</div>
+  </div>
+</div>
+
+<!-- ════════ SIGN UP ════════ -->
+<div id="v-signup" class="view">
+  <div class="signin-wrap">
+    <div class="si-logo-float">
+      <img src="thewhitetigerdotin_logo.jpg" alt="SherByte">
+    </div>
+    <h1 class="si-ttl">Join Sher<span>Byte</span></h1>
+    <p class="si-sub">Your personal intel, secured.</p>
+    
+    <div class="si-card">
+      <input type="text" id="reg-handle" placeholder="@YourHandle" class="si-inp" onkeydown="if(event.key==='Enter')registerUser()">
+      <input type="email" id="reg-email" placeholder="Email address" class="si-inp" onkeydown="if(event.key==='Enter')registerUser()">
+      <input type="password" id="reg-pass" placeholder="Password" class="si-inp" onkeydown="if(event.key==='Enter')registerUser()">
+      <button class="si-btn primary tap" onclick="registerUser()">Create Account</button>
+      <div class="si-links" style="justify-content:center;margin-top:15px">
+        <span class="tap" style="font-weight:700" onclick="navTo('signin')">Already have an account? Sign in</span>
+      </div>
+    </div>
+    <div class="si-foot">By joining, you agree to our Terms & Privacy</div>
   </div>
 </div>
 
@@ -2582,12 +2605,15 @@ async function syncLocationFeed() {
   toast('📍 Tuning to ' + userLocation.toUpperCase() + ' Pulse...');
   
   try {
-    const res = await fetch(`/api/feed?location=${userLocation}`);
+    const feedUrl = ST.user_id ? `/api/feed/${ST.user_id}` : `/api/feed?location=${userLocation}`;
+    const res = await fetch(feedUrl);
     const data = await res.json();
-    const liveArticles = data.articles || [];
     
-    // Auto-refresh if news is older than 60 mins
-    if (data.last_sync) {
+    // Auth feed returns array directly, global feed returns {articles, last_sync}
+    const liveArticles = Array.isArray(data) ? data : (data.articles || []);
+    
+    // Auto-refresh if news is older than 60 mins (only applies to global feed structure for now)
+    if (!Array.isArray(data) && data.last_sync) {
       const last = new Date(data.last_sync);
       const diff = (new Date() - last) / (1000 * 60);
       if (diff > 60) {
@@ -2672,16 +2698,65 @@ function navTo(name, push=true) {
   if (name==='profile') {
     const sct = document.getElementById('saved-ct');
     if (sct) sct.textContent = ST.saves.length;
+    // Set profile name
+    const pn = document.querySelector('.profile-name');
+    if(pn) pn.textContent = ST.handle ? ST.handle.replace('@','') : 'User';
+    const ph = document.querySelector('.profile-handle');
+    if(ph) ph.textContent = ST.handle || '@user';
   }
 
   if (push) history.pushState({view:name}, '', '/'+name);
   window.scrollTo(0,0);
 }
 
+async function loginUser() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-pass').value;
+  if(!email || !password) { toast("⚠️ Enter email and password"); return; }
+  
+  toast('🔐 Authenticating...');
+  try {
+    const res = await fetch('/api/auth/login', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email, password})
+    });
+    const d = await res.json();
+    if(res.ok) {
+      toast('✓ Welcome back, ' + d.handle + '!');
+      ST.user_id = d.user_id; ST.handle = d.handle; save();
+      navTo('home'); syncLocationFeed();
+    } else toast('⚠️ ' + d.error);
+  } catch(e) { toast('⚠️ Auth failed'); }
+}
+
+async function registerUser() {
+  const handle = document.getElementById('reg-handle').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const password = document.getElementById('reg-pass').value;
+  if(!handle || !email || !password) { toast("⚠️ All fields required"); return; }
+  if(!handle.startsWith('@')) { toast("⚠️ Handle must start with @"); return; }
+  
+  toast('🔐 Creating account...');
+  try {
+    const res = await fetch('/api/auth/register', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email, password, handle})
+    });
+    const d = await res.json();
+    if(res.ok) {
+      toast('✓ Account Created!');
+      ST.user_id = d.user_id; ST.handle = d.handle; save();
+      navTo('onboarding');
+    } else toast('⚠️ ' + d.error);
+  } catch(e) { toast('⚠️ Registration failed'); }
+}
+
 function googleAuth() {
   toast('🚀 Authenticating with Google...');
   setTimeout(() => {
-    toast('✓ Welcome back, Jashwanth!');
+    toast('✓ Using mock legacy login');
     navTo('onboarding');
   }, 1500);
 }
@@ -2784,9 +2859,14 @@ window.addEventListener('resize', setByteSnapHeight);
 
 document.addEventListener('DOMContentLoaded', () => {
   setByteSnapHeight();
-  navTo(initialView || 'home');
-  renderExpCats();
-  syncLocationFeed(); // Sync real news on load
+  
+  if (!ST.user_id) {
+    navTo('signin');
+  } else {
+    navTo(initialView || 'home');
+    renderExpCats();
+    syncLocationFeed(); // Sync real news on load
+  }
 });
 </script>
 <script type="text/javascript">

@@ -9,6 +9,7 @@ import json
 import threading
 import time
 from dotenv import load_dotenv
+from werkzeug.security import generate_password_hash, check_password_hash
 from datasketch import MinHash, MinHashLSH
 
 # --- 1. Configuration & Environment ---
@@ -524,6 +525,53 @@ def personalized_feed(user_id):
         "id": str(a["_id"]), "summary": a["summary"], "category": a["category"],
         "image_url": a["image_url"], "created_at": a["created_at"].isoformat()
     } for a in articles])
+
+@app.route('/api/auth/register', methods=['POST'])
+def auth_register():
+    data = request.json
+    email = data.get('email')
+    password = data.get('password')
+    handle = data.get('handle')
+    
+    if not email or not password or not handle:
+        return jsonify({"error": "Missing required fields"}), 400
+        
+    if collection_users.find_one({"email": email}):
+        return jsonify({"error": "Email already registered"}), 400
+    
+    if collection_users.find_one({"handle": handle}):
+        return jsonify({"error": "Handle already taken"}), 400
+        
+    user_data = {
+        "email": email,
+        "password_hash": generate_password_hash(password),
+        "handle": handle,
+        "display_name": handle.replace('@', ''),
+        "joined_circles": ["@society", "@tech"], # Default circles
+        "karma": 0,
+        "joined_at": datetime.datetime.utcnow()
+    }
+    
+    user_id = collection_users.insert_one(user_data).inserted_id
+    return jsonify({"status": "Registered", "user_id": str(user_id), "handle": handle}), 201
+
+@app.route('/api/auth/login', methods=['POST'])
+def auth_login():
+    data = request.json
+    email = data.get('email')
+    password = data.get('password')
+    
+    if not email or not password:
+        return jsonify({"error": "Missing email or password"}), 400
+        
+    user = collection_users.find_one({"email": email})
+    if not user or not check_password_hash(user.get("password_hash", ""), password):
+        # Fallback for old mock users or users created without password_hash via /api/onboard
+        if user and not user.get("password_hash") and data.get("is_legacy"):
+             return jsonify({"status": "Logged In", "user_id": str(user["_id"]), "handle": user.get("handle")}), 200
+        return jsonify({"error": "Invalid credentials"}), 401
+        
+    return jsonify({"status": "Logged In", "user_id": str(user["_id"]), "handle": user.get("handle")}), 200
 
 @app.route('/api/onboard', methods=['POST'])
 def onboard_user():
